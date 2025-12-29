@@ -1,0 +1,31 @@
+project_id = "sauhoztlavipqhfokafq"
+
+[functions.telegram-welcome]
+verify_jwt = false
+
+[functions.send-contact-email]
+verify_jwt = false
+
+[functions.send-welcome-email]
+verify_jwt = false
+
+[functions.check-membership-expiry]
+verify_jwt = false
+
+[functions.generate-invoice]
+verify_jwt = false
+
+[functions.notify-ea-subscription]
+verify_jwt = false
+
+[functions.admin-api]
+verify_jwt = false
+
+[functions.notify-ea-launch]
+verify_jwt = false
+
+[functions.verify-ea-subscription]
+verify_jwt = false
+
+[functions.verify-captcha]
+verify_jwt = false
