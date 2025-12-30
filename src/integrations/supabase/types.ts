@@ -213,6 +213,7 @@ export type Database = {
         Args: { check_email: string }
         Returns: boolean
       }
+      has_active_membership: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { check_user_id: string }; Returns: boolean }
     }
     Enums: {
