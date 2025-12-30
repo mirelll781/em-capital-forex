@@ -132,6 +132,12 @@ const Admin = () => {
   const [telegramUsernameInput, setTelegramUsernameInput] = useState("");
   const [updateUsernameLoading, setUpdateUsernameLoading] = useState(false);
 
+  // Edit Paid Until dialog
+  const [editPaidUntilDialogOpen, setEditPaidUntilDialogOpen] = useState(false);
+  const [editPaidUntilUser, setEditPaidUntilUser] = useState<Profile | null>(null);
+  const [editPaidUntilInput, setEditPaidUntilInput] = useState("");
+  const [editPaidUntilLoading, setEditPaidUntilLoading] = useState(false);
+
   useEffect(() => {
     const adminAuth = sessionStorage.getItem("admin_authenticated");
     const savedPassword = sessionStorage.getItem("admin_password");
@@ -661,6 +667,38 @@ const Admin = () => {
     }
   };
 
+  const handleEditPaidUntil = async () => {
+    if (!editPaidUntilUser || !editPaidUntilInput) {
+      toast.error("Unesite datum");
+      return;
+    }
+    setEditPaidUntilLoading(true);
+    try {
+      const newPaidUntil = new Date(editPaidUntilInput).toISOString();
+      const { error } = await supabase.functions.invoke("admin-api", {
+        body: {
+          password: storedPassword,
+          action: "edit_paid_until",
+          data: { 
+            user_id: editPaidUntilUser.user_id, 
+            paid_until: newPaidUntil
+          }
+        }
+      });
+      if (error) throw error;
+      toast.success(`Datum članarine ažuriran za ${editPaidUntilUser.email}`);
+      setEditPaidUntilDialogOpen(false);
+      setEditPaidUntilUser(null);
+      setEditPaidUntilInput("");
+      await fetchProfiles();
+    } catch (error: any) {
+      console.error("Edit paid_until error:", error);
+      toast.error(error.message || "Greška pri ažuriranju datuma");
+    } finally {
+      setEditPaidUntilLoading(false);
+    }
+  };
+
   const exportToCSV = () => {
     const headers = ["Email", "Telegram", "Tip", "Status", "Plaćeno", "Važi do", "Registrovan", "Bilješke"];
     const rows = profiles.map(p => [
@@ -1084,6 +1122,55 @@ const Admin = () => {
             >
               <Edit className="h-4 w-4 mr-2" />
               {updateUsernameLoading ? "Ažuriranje..." : "Ažuriraj"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Paid Until Dialog */}
+      <Dialog open={editPaidUntilDialogOpen} onOpenChange={setEditPaidUntilDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" />
+              Uredi datum članarine
+            </DialogTitle>
+            <DialogDescription>
+              Ručno promijenite datum isteka članarine za korisnika {editPaidUntilUser?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Novi datum isteka</label>
+              <Input
+                type="date"
+                value={editPaidUntilInput}
+                onChange={(e) => setEditPaidUntilInput(e.target.value)}
+              />
+            </div>
+            {editPaidUntilUser?.paid_until && (
+              <div className="bg-primary/10 border border-primary/30 rounded-lg p-3">
+                <p className="text-sm text-primary">
+                  📅 Trenutni datum: {format(new Date(editPaidUntilUser.paid_until), "dd.MM.yyyy")}
+                </p>
+              </div>
+            )}
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+              <p className="text-sm text-yellow-400">
+                ⚠️ Ova promjena ne kreira novi zapis u historiji plaćanja.
+              </p>
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => { setEditPaidUntilDialogOpen(false); setEditPaidUntilInput(""); }}>
+              Otkaži
+            </Button>
+            <Button 
+              onClick={handleEditPaidUntil} 
+              disabled={editPaidUntilLoading || !editPaidUntilInput}
+            >
+              <Calendar className="h-4 w-4 mr-2" />
+              {editPaidUntilLoading ? "Spremanje..." : "Spremi"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1691,7 +1778,24 @@ const Admin = () => {
                                 <Badge className={status.color}>{status.label}</Badge>
                               </TableCell>
                               <TableCell>
-                                {profile.paid_until ? format(new Date(profile.paid_until), "dd.MM.yy") : "-"}
+                                <div className="flex items-center gap-1">
+                                  <span>{profile.paid_until ? format(new Date(profile.paid_until), "dd.MM.yy") : "-"}</span>
+                                  {profile.paid_until && (
+                                    <Button
+                                      size="sm"
+                                      variant="ghost"
+                                      className="h-6 w-6 p-0"
+                                      title="Uredi datum"
+                                      onClick={() => {
+                                        setEditPaidUntilUser(profile);
+                                        setEditPaidUntilInput(profile.paid_until ? format(new Date(profile.paid_until), "yyyy-MM-dd") : "");
+                                        setEditPaidUntilDialogOpen(true);
+                                      }}
+                                    >
+                                      <Edit className="h-3 w-3" />
+                                    </Button>
+                                  )}
+                                </div>
                               </TableCell>
                               <TableCell>
                                 <div className="flex justify-end gap-1 flex-wrap">

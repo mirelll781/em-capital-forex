@@ -617,6 +617,30 @@ serve(async (req) => {
         );
       }
 
+      case "edit_paid_until": {
+        const { user_id, paid_until } = data;
+
+        if (!user_id || !paid_until) {
+          return new Response(
+            JSON.stringify({ error: "User ID and paid_until date are required" }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+
+        const { error: updateError } = await supabase
+          .from("profiles")
+          .update({ paid_until })
+          .eq("user_id", user_id);
+
+        if (updateError) throw updateError;
+
+        console.log(`Updated paid_until to "${paid_until}" for user: ${user_id}`);
+        return new Response(
+          JSON.stringify({ success: true }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
       default:
         return new Response(
           JSON.stringify({ error: "Invalid action" }),
