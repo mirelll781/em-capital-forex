@@ -642,7 +642,7 @@ serve(async (req) => {
       }
 
       case "send_membership_reminder": {
-        const { user_id, telegram_chat_id, telegram_username, membership_type, paid_until } = data;
+        const { user_id, telegram_chat_id, telegram_username, membership_type, paid_until, user_email } = data;
 
         if (!telegram_chat_id) {
           return new Response(
@@ -674,6 +674,7 @@ Kako bi zadržao neprekidan pristup mentorstvu, signalima i podršci, preporuču
 
 _Hvala ti što si dio našeg tima 🙌_`;
 
+        // Send reminder to user
         const response = await fetch(
           `https://api.telegram.org/bot${botToken}/sendMessage`,
           {
@@ -690,6 +691,36 @@ _Hvala ti što si dio našeg tima 🙌_`;
         if (!response.ok) {
           const error = await response.json();
           throw new Error(`Telegram error: ${error.description}`);
+        }
+
+        // Send confirmation to admin(s)
+        const ADMIN_CHAT_IDS = [933210834, 7173078604];
+        const adminNotification = `✅ *Podsjetnik poslan!*
+
+👤 *Korisnik:* ${user_email || 'N/A'}
+📱 *Telegram:* ${tgHandle}
+🏷️ *Tip:* ${typeLabel}
+📅 *Ističe:* ${formattedDate}
+
+_Ručno poslan podsjetnik za članarinu._`;
+
+        for (const adminId of ADMIN_CHAT_IDS) {
+          try {
+            await fetch(
+              `https://api.telegram.org/bot${botToken}/sendMessage`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  chat_id: adminId,
+                  text: adminNotification,
+                  parse_mode: "Markdown"
+                })
+              }
+            );
+          } catch (err) {
+            console.error(`Failed to notify admin ${adminId}:`, err);
+          }
         }
 
         console.log(`Sent membership reminder to user: ${user_id}`);
