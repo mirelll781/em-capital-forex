@@ -53,46 +53,52 @@ serve(async (req) => {
     // Get current date and dates for reminders
     const now = new Date();
     
-    // 3 days from now - user reminder
-    const threeDaysFromNow = new Date(now);
-    threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+    // 10 days from now - user reminder
+    const tenDaysFromNow = new Date(now);
+    tenDaysFromNow.setDate(tenDaysFromNow.getDate() + 10);
     
-    const threeDaysStart = new Date(threeDaysFromNow);
-    threeDaysStart.setHours(0, 0, 0, 0);
+    const tenDaysStart = new Date(tenDaysFromNow);
+    tenDaysStart.setHours(0, 0, 0, 0);
     
-    const threeDaysEnd = new Date(threeDaysFromNow);
-    threeDaysEnd.setHours(23, 59, 59, 999);
+    const tenDaysEnd = new Date(tenDaysFromNow);
+    tenDaysEnd.setHours(23, 59, 59, 999);
 
-    // Find memberships expiring in 3 days and notify USERS
-    const { data: expiringIn3Days, error: error3Days } = await supabase
+    // Find memberships expiring in 10 days and notify USERS
+    const { data: expiringIn10Days, error: error10Days } = await supabase
       .from('profiles')
       .select('*')
-      .gte('paid_until', threeDaysStart.toISOString())
-      .lte('paid_until', threeDaysEnd.toISOString());
+      .gte('paid_until', tenDaysStart.toISOString())
+      .lte('paid_until', tenDaysEnd.toISOString());
 
-    if (!error3Days && expiringIn3Days && expiringIn3Days.length > 0) {
-      console.log(`Found ${expiringIn3Days.length} memberships expiring in 3 days`);
+    if (!error10Days && expiringIn10Days && expiringIn10Days.length > 0) {
+      console.log(`Found ${expiringIn10Days.length} memberships expiring in 10 days`);
       
-      for (const member of expiringIn3Days) {
+      for (const member of expiringIn10Days) {
         // Check if user has telegram notifications enabled (default true if not set)
         const telegramNotificationsEnabled = member.telegram_notifications !== false;
         
         if (member.telegram_chat_id && telegramNotificationsEnabled) {
           const typeLabel = member.membership_type === 'mentorship' ? 'Mentorship' : 'Premium Signali';
+          const tgHandle = member.telegram_username ? `@${member.telegram_username}` : 'člane';
+          const statusEmoji = new Date(member.paid_until) > now ? '🟢 Aktivna' : '🔴 Istekla';
           
-          const userReminderText = `⏰ *Podsjetnik: Vaša članarina ističe za 3 dana!*
+          const userReminderText = `🤖 *Automatska obavijest*
 
-🏷️ *Tip:* ${typeLabel}
-📅 *Datum isteka:* ${formatDate(new Date(member.paid_until))}
+👋 Pozdrav ${tgHandle}, tvoja ${typeLabel} pretplata uskoro ističe.
 
-Za produženje članarine, kontaktirajte nas putem @emirbcvc ili koristite opciju "📩 Pošalji Upit" u meniju.
+📊 *Status članarine:* ${statusEmoji}
+📅 *Važi do:* ${formatDate(new Date(member.paid_until))}
 
-_Hvala vam na povjerenju! 🙏_`;
+Kako bi zadržao neprekidan pristup mentorstvu, signalima i podršci, preporučujemo da na vrijeme produžiš pretplatu.
 
-          console.log(`Sending 3-day reminder to user: ${member.email}`);
+📩 Za produženje ili dodatne informacije, odgovori na ovu poruku ili se javi administratoru.
+
+_Hvala ti što si dio našeg tima 🙌_`;
+
+          console.log(`Sending 10-day reminder to user: ${member.email}`);
           await sendMessage(member.telegram_chat_id, userReminderText);
         } else if (!telegramNotificationsEnabled) {
-          console.log(`Skipping 3-day reminder for ${member.email} - notifications disabled`);
+          console.log(`Skipping 10-day reminder for ${member.email} - notifications disabled`);
         }
       }
     }
@@ -181,7 +187,7 @@ _Korisnik više nema aktivnu članarinu._`;
 
     return new Response(JSON.stringify({ 
       ok: true, 
-      userReminders3Days: expiringIn3Days?.length || 0,
+      userReminders10Days: expiringIn10Days?.length || 0,
       expiringTomorrow: expiringMembers?.length || 0,
       expiredToday: expiredToday?.length || 0
     }), {

@@ -641,6 +641,64 @@ serve(async (req) => {
         );
       }
 
+      case "send_membership_reminder": {
+        const { user_id, telegram_chat_id, telegram_username, membership_type, paid_until } = data;
+
+        if (!telegram_chat_id) {
+          return new Response(
+            JSON.stringify({ error: "Korisnik nema povezan Telegram" }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+
+        const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
+        if (!botToken) throw new Error("Telegram bot token not configured");
+
+        const typeLabel = membership_type === 'mentorship' ? 'Mentorship' : 'Premium Signali';
+        const tgHandle = telegram_username ? `@${telegram_username}` : 'člane';
+        const paidUntilDate = new Date(paid_until);
+        const now = new Date();
+        const statusEmoji = paidUntilDate > now ? '🟢 Aktivna' : '🔴 Istekla';
+        const formattedDate = paidUntilDate.toLocaleDateString('bs-BA', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+        const reminderText = `🤖 *Automatska obavijest*
+
+👋 Pozdrav ${tgHandle}, tvoja ${typeLabel} pretplata uskoro ističe.
+
+📊 *Status članarine:* ${statusEmoji}
+📅 *Važi do:* ${formattedDate}
+
+Kako bi zadržao neprekidan pristup mentorstvu, signalima i podršci, preporučujemo da na vrijeme produžiš pretplatu.
+
+📩 Za produženje ili dodatne informacije, odgovori na ovu poruku ili se javi administratoru.
+
+_Hvala ti što si dio našeg tima 🙌_`;
+
+        const response = await fetch(
+          `https://api.telegram.org/bot${botToken}/sendMessage`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: telegram_chat_id,
+              text: reminderText,
+              parse_mode: "Markdown"
+            })
+          }
+        );
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(`Telegram error: ${error.description}`);
+        }
+
+        console.log(`Sent membership reminder to user: ${user_id}`);
+        return new Response(
+          JSON.stringify({ success: true }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
       default:
         return new Response(
           JSON.stringify({ error: "Invalid action" }),
