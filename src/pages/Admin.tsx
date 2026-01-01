@@ -15,7 +15,7 @@ import {
   Shield, Users, Search, Calendar, CheckCircle, XCircle, Clock, ArrowLeft, 
   UserPlus, RefreshCw, Lock, Ban, Trash2, Unlock, MessageSquare, Mail, 
   Send, Download, StickyNote, TrendingUp, DollarSign, BarChart3, Bot, Rocket,
-  MailCheck, MailX, RotateCcw, Key, Link, Edit
+  MailCheck, MailX, RotateCcw, Key, Link, Edit, Bell
 } from "lucide-react";
 import { format, addMonths, isAfter, isBefore, addDays } from "date-fns";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -137,6 +137,11 @@ const Admin = () => {
   const [editPaidUntilUser, setEditPaidUntilUser] = useState<Profile | null>(null);
   const [editPaidUntilInput, setEditPaidUntilInput] = useState("");
   const [editPaidUntilLoading, setEditPaidUntilLoading] = useState(false);
+
+  // Membership Reminder dialog
+  const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
+  const [reminderUser, setReminderUser] = useState<Profile | null>(null);
+  const [reminderLoading, setReminderLoading] = useState(false);
 
   useEffect(() => {
     const adminAuth = sessionStorage.getItem("admin_authenticated");
@@ -699,6 +704,39 @@ const Admin = () => {
     }
   };
 
+  const handleSendMembershipReminder = async () => {
+    if (!reminderUser) return;
+    if (!reminderUser.telegram_chat_id) {
+      toast.error("Korisnik nema povezan Telegram");
+      return;
+    }
+    setReminderLoading(true);
+    try {
+      const { error } = await supabase.functions.invoke("admin-api", {
+        body: {
+          password: storedPassword,
+          action: "send_membership_reminder",
+          data: { 
+            user_id: reminderUser.user_id,
+            telegram_chat_id: reminderUser.telegram_chat_id,
+            telegram_username: reminderUser.telegram_username,
+            membership_type: reminderUser.membership_type,
+            paid_until: reminderUser.paid_until
+          }
+        }
+      });
+      if (error) throw error;
+      toast.success(`Podsjetnik poslan korisniku ${reminderUser.email}`);
+      setReminderDialogOpen(false);
+      setReminderUser(null);
+    } catch (error: any) {
+      console.error("Reminder error:", error);
+      toast.error(error.message || "Greška pri slanju podsjetnika");
+    } finally {
+      setReminderLoading(false);
+    }
+  };
+
   const exportToCSV = () => {
     const headers = ["Email", "Telegram", "Tip", "Status", "Plaćeno", "Važi do", "Registrovan", "Bilješke"];
     const rows = profiles.map(p => [
@@ -1171,6 +1209,59 @@ const Admin = () => {
             >
               <Calendar className="h-4 w-4 mr-2" />
               {editPaidUntilLoading ? "Spremanje..." : "Spremi"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Membership Reminder Dialog */}
+      <Dialog open={reminderDialogOpen} onOpenChange={setReminderDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5 text-primary" />
+              Pošalji podsjetnik za članarinu
+            </DialogTitle>
+            <DialogDescription>
+              Pošalji Telegram podsjetnik korisniku {reminderUser?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            {reminderUser?.telegram_chat_id ? (
+              <>
+                <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 space-y-2">
+                  <p className="text-sm font-medium">Pregled poruke:</p>
+                  <div className="text-xs text-muted-foreground space-y-1">
+                    <p>🤖 <strong>Automatska obavijest</strong></p>
+                    <p>👋 Pozdrav @{reminderUser.telegram_username || 'člane'}, tvoja {reminderUser.membership_type === 'mentorship' ? 'Mentorship' : 'Premium Signali'} pretplata uskoro ističe.</p>
+                    <p>📊 Status članarine: {reminderUser.paid_until && new Date(reminderUser.paid_until) > new Date() ? '🟢 Aktivna' : '🔴 Istekla'}</p>
+                    <p>📅 Važi do: {reminderUser.paid_until ? format(new Date(reminderUser.paid_until), "dd.MM.yyyy") : '-'}</p>
+                  </div>
+                </div>
+                <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+                  <p className="text-sm text-green-400">
+                    ✓ Korisnik ima povezan Telegram i može primiti poruku
+                  </p>
+                </div>
+              </>
+            ) : (
+              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
+                <p className="text-sm text-red-400">
+                  ❌ Korisnik nema povezan Telegram - ne može primiti poruku
+                </p>
+              </div>
+            )}
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setReminderDialogOpen(false)}>
+              Otkaži
+            </Button>
+            <Button 
+              onClick={handleSendMembershipReminder} 
+              disabled={reminderLoading || !reminderUser?.telegram_chat_id}
+            >
+              <Bell className="h-4 w-4 mr-2" />
+              {reminderLoading ? "Slanje..." : "Pošalji podsjetnik"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -1852,6 +1943,22 @@ const Admin = () => {
                                         </DialogContent>
                                       </Dialog>
                                     )
+                                  )}
+
+                                  {/* Reminder */}
+                                  {profile.paid_until && profile.telegram_chat_id && (
+                                    <Button 
+                                      size="sm" 
+                                      variant="outline" 
+                                      className="text-primary"
+                                      title="Pošalji podsjetnik za članarinu" 
+                                      onClick={() => {
+                                        setReminderUser(profile);
+                                        setReminderDialogOpen(true);
+                                      }}
+                                    >
+                                      <Bell className="h-4 w-4" />
+                                    </Button>
                                   )}
 
                                   {/* Message */}
