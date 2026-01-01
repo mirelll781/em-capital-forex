@@ -721,12 +721,13 @@ const Admin = () => {
             telegram_chat_id: reminderUser.telegram_chat_id,
             telegram_username: reminderUser.telegram_username,
             membership_type: reminderUser.membership_type,
-            paid_until: reminderUser.paid_until
+            paid_until: reminderUser.paid_until,
+            user_email: reminderUser.email
           }
         }
       });
       if (error) throw error;
-      toast.success(`Podsjetnik poslan korisniku ${reminderUser.email}`);
+      toast.success(`📱 Telegram podsjetnik poslan korisniku ${reminderUser.email}`);
       setReminderDialogOpen(false);
       setReminderUser(null);
     } catch (error: any) {
