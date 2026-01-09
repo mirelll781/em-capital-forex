@@ -812,7 +812,7 @@ ${updatedUser.telegram_chat_id ? '✉️ _Korisnik obaviješten_' : '⚠️ _Kor
 }
 
 // Auto-link user and update telegram username/chat_id on any interaction
-async function autoLinkTelegramUser(chatId: number, currentUsername: string | undefined): Promise<{ linked: boolean; profile?: { email: string; telegram_username: string | null } }> {
+async function autoLinkTelegramUser(chatId: number, currentUsername: string | undefined): Promise<{ linked: boolean; isNewLink?: boolean; profile?: { email: string; telegram_username: string | null } }> {
   const supabase = getSupabaseClient();
   
   // First, check if this chat_id is already linked to a profile
@@ -834,7 +834,7 @@ async function autoLinkTelegramUser(chatId: number, currentUsername: string | un
         console.log(`Auto-updated telegram username for chat ${chatId}: ${existingByChatId.telegram_username} -> ${currentUsername}`);
       }
     }
-    return { linked: true, profile: { email: existingByChatId.email, telegram_username: existingByChatId.telegram_username } };
+    return { linked: true, isNewLink: false, profile: { email: existingByChatId.email, telegram_username: existingByChatId.telegram_username } };
   }
   
   // Not linked by chat_id - try to find by username and link
@@ -846,7 +846,7 @@ async function autoLinkTelegramUser(chatId: number, currentUsername: string | un
       .single();
     
     if (profileByUsername && !searchError) {
-      // Found profile by username! Link it with chat_id
+      // Found profile by username! Link it with chat_id (this is a NEW link)
       const { error: updateError } = await supabase
         .from('profiles')
         .update({ 
@@ -857,7 +857,7 @@ async function autoLinkTelegramUser(chatId: number, currentUsername: string | un
       
       if (!updateError) {
         console.log(`Auto-linked telegram chat ${chatId} to profile ${profileByUsername.email} via username @${currentUsername}`);
-        return { linked: true, profile: { email: profileByUsername.email, telegram_username: currentUsername } };
+        return { linked: true, isNewLink: true, profile: { email: profileByUsername.email, telegram_username: currentUsername } };
       }
     }
   }
@@ -1753,8 +1753,50 @@ _Korisnik čeka uplatu. Koristi /platio da aktiviraš članarinu._`;
       
       if (linkResult.linked) {
         console.log(`User ${chatId} successfully linked to profile ${linkResult.profile?.email}`);
+        
+        // Notify admins when a user starts the bot for the FIRST TIME (new link)
+        if (linkResult.isNewLink) {
+          const escapedEmail = escapeMarkdown(linkResult.profile?.email || 'N/A');
+          const tgHandle = username ? `@${escapeMarkdown(username)}` : 'N/A';
+          
+          const adminNotification = `🤖 *Korisnik pokrenuo bota!*
+
+📧 *Email:* ${escapedEmail}
+📱 *Telegram:* ${tgHandle}
+🔗 *Chat ID:* \`${chatId}\`
+📆 *Vrijeme:* ${new Date().toLocaleString('bs-BA')}
+
+_Korisnik je prvi put pokrenuo bota i povezan je sa profilom._`;
+
+          for (const adminId of ADMIN_CHAT_IDS) {
+            try {
+              await sendMessage(adminId, adminNotification);
+            } catch (err) {
+              console.error(`Failed to notify admin ${adminId}:`, err);
+            }
+          }
+        }
       } else if (username) {
         console.log(`User ${chatId} with username @${username} not found in profiles`);
+        
+        // Notify admins about unknown user starting the bot
+        const tgHandle = `@${escapeMarkdown(username)}`;
+        
+        const adminNotification = `⚠️ *Neregistrovani korisnik pokrenuo bota!*
+
+📱 *Telegram:* ${tgHandle}
+🔗 *Chat ID:* \`${chatId}\`
+📆 *Vrijeme:* ${new Date().toLocaleString('bs-BA')}
+
+_Korisnik nije pronađen u bazi. Možda se nije registrovao na webu._`;
+
+        for (const adminId of ADMIN_CHAT_IDS) {
+          try {
+            await sendMessage(adminId, adminNotification);
+          } catch (err) {
+            console.error(`Failed to notify admin ${adminId}:`, err);
+          }
+        }
       } else {
         console.log(`User ${chatId} has no username set`);
       }
