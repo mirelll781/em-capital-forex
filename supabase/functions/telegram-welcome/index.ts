@@ -113,6 +113,9 @@ const getGroupWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u EM Ca
 
 Drago nam je što ste se pridružili našoj trading zajednici!
 
+📝 *OBAVEZNO:* Registrujte se na našoj web stranici:
+👉 [em-capital-forex.dynu.net/auth](https://em-capital-forex.dynu.net/auth)
+
 🤖 *Za pristup svim opcijama* (provjera statusa, upit, itd.) kliknite na dugme ispod i pokrenite privatni chat sa botom.
 
 👇 *Kliknite "Otvori Bota":*`;
@@ -120,6 +123,9 @@ Drago nam je što ste se pridružili našoj trading zajednici!
 // Keyboard for group welcome - link to bot
 const groupWelcomeKeyboard = {
   inline_keyboard: [
+    [
+      { text: '📝 Registruj se', url: 'https://em-capital-forex.dynu.net/auth' }
+    ],
     [
       { text: '🤖 Otvori Bota', url: 'https://t.me/emcapitalforexbot?start=welcome' }
     ],
