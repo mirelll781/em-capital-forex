@@ -936,10 +936,10 @@ ${status.emoji} *Status:* ${status.text} ${daysText}
 ${status.text === 'Aktivan' ? '✅ Vaša članarina je aktivna!' : '⚠️ Za produženje članarine kontaktirajte @EMforexadmin'}`;
 }
 
-// Handle /clanovi command - list all members
-async function handleClanoviCommand(chatId: number): Promise<string> {
+// Handle /clanovi command - list all members (returns array of messages to handle Telegram's 4096 char limit)
+async function handleClanoviCommand(chatId: number): Promise<string[]> {
   if (!isAdmin(chatId)) {
-    return '❌ Nemate ovlaštenja za ovu komandu.';
+    return ['❌ Nemate ovlaštenja za ovu komandu.'];
   }
 
   const supabase = getSupabaseClient();
@@ -951,11 +951,11 @@ async function handleClanoviCommand(chatId: number): Promise<string> {
 
   if (error) {
     console.error('Error fetching members:', error);
-    return `❌ Greška: ${error.message}`;
+    return [`❌ Greška: ${error.message}`];
   }
 
   if (!data || data.length === 0) {
-    return '📋 Nema registrovanih članova.';
+    return ['📋 Nema registrovanih članova.'];
   }
 
   const now = new Date();
@@ -963,52 +963,73 @@ async function handleClanoviCommand(chatId: number): Promise<string> {
   const expiredMembers = data.filter(m => m.paid_until && new Date(m.paid_until) <= now);
   const pendingMembers = data.filter(m => !m.paid_until);
 
-  let message = `📋 *Lista članova* (${data.length} ukupno)
+  const messages: string[] = [];
+
+  // Summary message
+  let summaryMessage = `📋 *Lista članova* (${data.length} ukupno)
 
 🟢 *Aktivni:* ${activeMembers.length}
 🔴 *Istekli:* ${expiredMembers.length}
-⚪ *Čekaju uplatu:* ${pendingMembers.length}
+⚪ *Čekaju uplatu:* ${pendingMembers.length}`;
+  messages.push(summaryMessage);
 
-`;
-
-  // Show active members
+  // Show ALL active members (split into chunks if needed)
   if (activeMembers.length > 0) {
-    message += `\n*Aktivni članovi:*\n`;
-    activeMembers.slice(0, 10).forEach(m => {
+    let activeMessage = `\n*🟢 Aktivni članovi:*\n`;
+    activeMembers.forEach((m, i) => {
       const type = m.membership_type === 'mentorship' ? 'M' : 'S';
       const tg = m.telegram_username ? `@${escapeMarkdown(m.telegram_username)}` : escapeMarkdown(m.email);
-      message += `🟢 ${tg} (${type}) - do ${formatDate(new Date(m.paid_until))}\n`;
+      const line = `${i + 1}. ${tg} (${type}) - do ${formatDate(new Date(m.paid_until))}\n`;
+      
+      // If adding this line would exceed ~3800 chars, start a new message
+      if (activeMessage.length + line.length > 3800) {
+        messages.push(activeMessage);
+        activeMessage = `*🟢 Aktivni članovi (nastavak):*\n`;
+      }
+      activeMessage += line;
     });
-    if (activeMembers.length > 10) {
-      message += `... i još ${activeMembers.length - 10}\n`;
+    if (activeMessage.length > 30) {
+      messages.push(activeMessage);
     }
   }
 
-  // Show expired members
+  // Show ALL expired members
   if (expiredMembers.length > 0) {
-    message += `\n*Istekle članarine:*\n`;
-    expiredMembers.slice(0, 5).forEach(m => {
+    let expiredMessage = `\n*🔴 Istekle članarine:*\n`;
+    expiredMembers.forEach((m, i) => {
       const tg = m.telegram_username ? `@${escapeMarkdown(m.telegram_username)}` : escapeMarkdown(m.email);
-      message += `🔴 ${tg} - isteklo ${formatDate(new Date(m.paid_until))}\n`;
+      const line = `${i + 1}. ${tg} - isteklo ${formatDate(new Date(m.paid_until))}\n`;
+      
+      if (expiredMessage.length + line.length > 3800) {
+        messages.push(expiredMessage);
+        expiredMessage = `*🔴 Istekle članarine (nastavak):*\n`;
+      }
+      expiredMessage += line;
     });
-    if (expiredMembers.length > 5) {
-      message += `... i još ${expiredMembers.length - 5}\n`;
+    if (expiredMessage.length > 30) {
+      messages.push(expiredMessage);
     }
   }
 
-  // Show pending members
+  // Show ALL pending members
   if (pendingMembers.length > 0) {
-    message += `\n*Čekaju uplatu:*\n`;
-    pendingMembers.slice(0, 5).forEach(m => {
+    let pendingMessage = `\n*⚪ Čekaju uplatu:*\n`;
+    pendingMembers.forEach((m, i) => {
       const tg = m.telegram_username ? `@${escapeMarkdown(m.telegram_username)}` : escapeMarkdown(m.email);
-      message += `⚪ ${tg}\n`;
+      const line = `${i + 1}. ${tg}\n`;
+      
+      if (pendingMessage.length + line.length > 3800) {
+        messages.push(pendingMessage);
+        pendingMessage = `*⚪ Čekaju uplatu (nastavak):*\n`;
+      }
+      pendingMessage += line;
     });
-    if (pendingMembers.length > 5) {
-      message += `... i još ${pendingMembers.length - 5}\n`;
+    if (pendingMessage.length > 30) {
+      messages.push(pendingMessage);
     }
   }
 
-  return message;
+  return messages;
 }
 
 // Handle Telegram Status command - check who has/doesn't have chat ID
@@ -1619,8 +1640,10 @@ _Korisnik čeka uplatu. Koristi /platio da aktiviraš članarinu._`;
 
     if (update.message?.text?.startsWith('/clanovi')) {
       const chatId = update.message.chat.id;
-      const response = await handleClanoviCommand(chatId);
-      await sendMessage(chatId, response);
+      const responses = await handleClanoviCommand(chatId);
+      for (const msg of responses) {
+        await sendMessage(chatId, msg);
+      }
       return new Response(JSON.stringify({ ok: true }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
@@ -1811,8 +1834,10 @@ Hvala na strpljenju! 🙏`
       // Handle admin clanovi button (execute directly)
       else if (data === 'admin_clanovi') {
         if (isAdmin(chatId)) {
-          const response = await handleClanoviCommand(chatId);
-          await sendMessage(chatId, response);
+          const responses = await handleClanoviCommand(chatId);
+          for (const msg of responses) {
+            await sendMessage(chatId, msg);
+          }
           await sendMessage(chatId, '👇 *Admin opcije:*', adminMenuKeyboard);
         }
       }
