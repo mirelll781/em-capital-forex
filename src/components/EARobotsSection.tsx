@@ -1,15 +1,10 @@
-import { useState, useEffect } from "react";
-import { Bot, Smartphone, Monitor, Clock, Mail, CheckCircle, Loader2, Tag, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Bot, Smartphone, Monitor, Clock, CheckCircle, Zap } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "@/hooks/use-toast";
 
 const LAUNCH_DATE = new Date("2026-01-01T00:00:00");
-const REGULAR_PRICE = 1000;
-const DISCOUNT_PRICE = 800;
-const DISCOUNT_DAYS = 3;
+const PRICE = 1000;
 
 interface TimeLeft {
   days: number;
@@ -20,13 +15,8 @@ interface TimeLeft {
 
 const EARobotsSection = () => {
   const { ref, isVisible } = useScrollAnimation();
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [isLaunched, setIsLaunched] = useState(false);
-  const [discountTimeLeft, setDiscountTimeLeft] = useState<TimeLeft | null>(null);
-
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -34,21 +24,6 @@ const EARobotsSection = () => {
       
       if (difference <= 0) {
         setIsLaunched(true);
-        
-        // Calculate discount end time (3 days after launch)
-        const discountEnd = new Date(LAUNCH_DATE.getTime() + DISCOUNT_DAYS * 24 * 60 * 60 * 1000);
-        const discountDiff = discountEnd.getTime() - now.getTime();
-        
-        if (discountDiff > 0) {
-          setDiscountTimeLeft({
-            days: Math.floor(discountDiff / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((discountDiff / (1000 * 60 * 60)) % 24),
-            minutes: Math.floor((discountDiff / 1000 / 60) % 60),
-            seconds: Math.floor((discountDiff / 1000) % 60),
-          });
-        } else {
-          setDiscountTimeLeft(null);
-        }
         return;
       }
 
@@ -64,74 +39,6 @@ const EARobotsSection = () => {
     const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email || !email.includes("@")) {
-      toast({
-        title: "Greška",
-        description: "Molimo unesite validnu email adresu.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-    
-    try {
-      const normalizedEmail = email.trim().toLowerCase();
-      
-      const { data, error } = await supabase
-        .from("ea_robot_subscriptions")
-        .insert({ email: normalizedEmail })
-        .select("verification_token")
-        .single();
-
-      if (error) {
-        if (error.code === "23505") {
-          toast({
-            title: "Već ste prijavljeni",
-            description: "Ova email adresa je već na listi čekanja. Provjerite inbox za verifikacijski email.",
-          });
-        } else {
-          throw error;
-        }
-      } else {
-        // Send verification email
-        const { error: emailError } = await supabase.functions.invoke("verify-ea-subscription", {
-          body: { 
-            email: normalizedEmail,
-            verification_token: data.verification_token 
-          },
-        });
-
-        if (emailError) {
-          console.error("Failed to send verification email:", emailError);
-        }
-
-        setIsSubscribed(true);
-        toast({
-          title: "Provjerite email!",
-          description: "Poslali smo vam verifikacijski link. Kliknite na njega da potvrdite prijavu.",
-        });
-        
-        // Send notification to admins (fire and forget)
-        supabase.functions.invoke("notify-ea-subscription", {
-          body: { email: normalizedEmail },
-        }).catch(console.error);
-      }
-    } catch (error) {
-      console.error("Subscription error:", error);
-      toast({
-        title: "Greška",
-        description: "Došlo je do greške. Pokušajte ponovo.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const TimeBlock = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center">
@@ -205,16 +112,6 @@ const EARobotsSection = () => {
         {/* Pricing Section */}
         <div className="max-w-xl mx-auto mb-12">
           <div className="p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/30 backdrop-blur-sm relative overflow-hidden">
-            {/* Discount Badge */}
-            {(discountTimeLeft || !isLaunched) && (
-              <div className="absolute -top-1 -right-1">
-                <div className="bg-green-500 text-white px-4 py-2 rounded-bl-xl rounded-tr-xl font-bold text-sm flex items-center gap-1">
-                  <Tag className="w-4 h-4" />
-                  -20% POPUST
-                </div>
-              </div>
-            )}
-            
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Zap className="w-6 h-6 text-primary" />
@@ -222,28 +119,9 @@ const EARobotsSection = () => {
               </div>
               <p className="text-muted-foreground mb-6">Mobile EA + Desktop EA</p>
               
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <span className="text-2xl text-muted-foreground line-through">${REGULAR_PRICE}</span>
-                <span className="text-5xl font-bold text-primary">${DISCOUNT_PRICE}</span>
+              <div className="flex items-center justify-center mb-6">
+                <span className="text-5xl font-bold text-primary">${PRICE}</span>
               </div>
-              
-              {discountTimeLeft ? (
-                <div className="bg-primary/20 rounded-lg p-3 mb-6">
-                  <p className="text-sm text-primary font-medium mb-2">⏰ Popust završava za:</p>
-                  <div className="flex justify-center gap-2 text-sm font-bold text-primary">
-                    <span>{discountTimeLeft.days}d</span>
-                    <span>{discountTimeLeft.hours}h</span>
-                    <span>{discountTimeLeft.minutes}m</span>
-                    <span>{discountTimeLeft.seconds}s</span>
-                  </div>
-                </div>
-              ) : !isLaunched ? (
-                <div className="bg-primary/20 rounded-lg p-3 mb-6">
-                  <p className="text-sm text-primary font-medium">
-                    🎁 Prva 3 dana po promotivnoj cijeni od ${DISCOUNT_PRICE}!
-                  </p>
-                </div>
-              ) : null}
               
               <ul className="text-left space-y-2 mb-6">
                 <li className="flex items-center gap-2">
@@ -264,24 +142,9 @@ const EARobotsSection = () => {
                 </li>
               </ul>
               
-              {/* Mentorship Discount Banner */}
-              <div className="bg-gradient-to-r from-gold/20 to-gold-dark/20 border border-gold/30 rounded-xl p-4 mb-6">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
-                    <Tag className="w-5 h-5 text-gold" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gold mb-1">🎓 Mentorship Popust -50%</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Članovi koji uzmu <span className="text-foreground font-medium">Mentorship paket</span> na minimalno 3 mjeseca i završe edukaciju ostvaruju <span className="text-gold font-bold">50% popusta</span> na kupovinu EA robota!
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
               {isLaunched ? (
                 <Button size="lg" className="w-full text-lg">
-                  Kupi Sada - ${discountTimeLeft ? DISCOUNT_PRICE : REGULAR_PRICE}
+                  Kupi Sada - ${PRICE}
                 </Button>
               ) : (
                 <p className="text-sm text-muted-foreground">
@@ -336,50 +199,6 @@ const EARobotsSection = () => {
           </div>
         </div>
 
-        {/* Email Subscription Form */}
-        <div className="mt-16 max-w-md mx-auto">
-          <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
-            {isSubscribed ? (
-              <div className="text-center py-4">
-                <Mail className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h4 className="text-lg font-heading font-bold mb-2">Provjerite email!</h4>
-                <p className="text-muted-foreground text-sm">
-                  Poslali smo vam verifikacijski link. Kliknite na njega da potvrdite prijavu.
-                </p>
-              </div>
-            ) : (
-              <>
-                <div className="text-center mb-4">
-                  <h4 className="text-lg font-heading font-bold mb-2">Budi prvi koji će saznati</h4>
-                  <p className="text-muted-foreground text-sm">
-                    Ostavi email i obavijestit ćemo te kada EA roboti budu dostupni.
-                  </p>
-                </div>
-                
-                <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
-                  <div className="relative flex-1">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input
-                      type="email"
-                      placeholder="tvoj@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10"
-                      disabled={isLoading}
-                    />
-                  </div>
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      "Prijavi se"
-                    )}
-                  </Button>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
       </div>
     </section>
   );
