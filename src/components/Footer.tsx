@@ -1,4 +1,4 @@
-import { Send, Mail, Instagram } from "lucide-react";
+import { Send, Mail, Instagram, Users, Bot } from "lucide-react";
 import logo from "@/assets/logo.jpg";
 
 const Footer = () => {
@@ -18,9 +18,18 @@ const Footer = () => {
               Vaš partner u uspješnom Forex trgovanju. Premium signali, edukacija i podrška za postizanje vaših financijskih ciljeva.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://t.me/+994O794fVBZhYTA6" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors" title="Telegram Grupa">
-                <Send className="w-5 h-5" />
-              </a>
+              <div className="flex flex-col items-center">
+                <a href="https://t.me/+994O794fVBZhYTA6" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center hover:bg-primary/30 transition-colors border border-primary/30" title="Pridruži se grupi">
+                  <Users className="w-5 h-5 text-primary" />
+                </a>
+                <span className="text-xs text-primary font-medium mt-1">Pridruži se</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <a href="https://t.me/emcapitalforexbot" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors" title="Telegram Bot">
+                  <Bot className="w-5 h-5" />
+                </a>
+                <span className="text-xs text-muted-foreground mt-1">Bot</span>
+              </div>
               <div className="flex flex-col items-center">
                 <a href="https://www.instagram.com/em.capital1?igsh=czY2bWpxbnZteDdy" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors">
                   <Instagram className="w-5 h-5" />
