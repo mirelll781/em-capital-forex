@@ -18,20 +18,14 @@ const Footer = () => {
               Vaš partner u uspješnom Forex trgovanju. Premium signali, edukacija i podrška za postizanje vaših financijskih ciljeva.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://t.me/emcapitalforexbot" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors" title="Telegram Bot">
+              <a href="https://t.me/+994O794fVBZhYTA6" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors" title="Telegram Grupa">
                 <Send className="w-5 h-5" />
               </a>
               <div className="flex flex-col items-center">
-                <a href="https://www.instagram.com/emiir.bcvc" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors">
+                <a href="https://www.instagram.com/em.capital1?igsh=czY2bWpxbnZteDdy" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors">
                   <Instagram className="w-5 h-5" />
                 </a>
-                <span className="text-xs text-muted-foreground mt-1">@emiir.bcvc</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <a href="https://www.instagram.com/mirel.sinanovic" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <span className="text-xs text-muted-foreground mt-1">@mirel.sinanovic</span>
+                <span className="text-xs text-muted-foreground mt-1">@em.capital1</span>
               </div>
               <a href="mailto:emcapital3@gmail.com" className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center hover:bg-primary/20 transition-colors" title="Email">
                 <Mail className="w-5 h-5" />
