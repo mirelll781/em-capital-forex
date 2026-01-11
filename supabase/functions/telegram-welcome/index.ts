@@ -32,7 +32,7 @@ const mainMenuKeyboard = {
       { text: '🔵 Premium Signali', callback_data: 'signals' }
     ],
     [
-      { text: '🔗 Pristupi Grupi', url: 'https://t.me/+H86SSZlp-lU2M2Uy' }
+      { text: '🔗 Pristupi Grupi', url: 'https://t.me/+994O794fVBZhYTA6' }
     ],
     [
       { text: '📊 Moj Status', callback_data: 'my_status' },
@@ -54,7 +54,7 @@ function getMenuKeyboard(chatId: number) {
         { text: '🔵 Premium Signali', callback_data: 'signals' }
       ],
       [
-        { text: '🔗 Pristupi Grupi', url: 'https://t.me/+H86SSZlp-lU2M2Uy' }
+        { text: '🔗 Pristupi Grupi', url: 'https://t.me/+994O794fVBZhYTA6' }
       ],
       [
         { text: '📊 Moj Status', callback_data: 'my_status' },
@@ -196,8 +196,9 @@ Za sva pitanja možete nas kontaktirati:
 👤 *Admin:* @EMforexadmin
 👤 *Telegram:* @emirbcvc
 📧 *Email:* emcapital3@gmail.com
-📸 *Instagram:* [emiir.bcvc](https://www.instagram.com/emiir.bcvc) | [mirel.sinanovic](https://www.instagram.com/mirel.sinanovic)
+📸 *Instagram:* [em.capital1](https://www.instagram.com/em.capital1)
 🌐 *Web:* em-capital-forex.dynu.net
+🔗 *Telegram Grupa:* [Pristupi grupi](https://t.me/+994O794fVBZhYTA6)
 
 Odgovaramo u roku 24 sata!`,
 
