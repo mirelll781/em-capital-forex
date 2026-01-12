@@ -1977,6 +1977,8 @@ Hvala na strpljenju! 🙏`
         }
 
         const firstName = member.first_name || 'člane';
+        const lastName = member.last_name || '';
+        const username = member.username;
         const memberChatId = member.id;
         console.log(`Sending welcome to: ${firstName} (${memberChatId})`);
 
@@ -1997,6 +1999,32 @@ Hvala na strpljenju! 🙏`
           console.log(`Sent private welcome to ${firstName} (${memberChatId})`);
         } catch (err) {
           console.log(`Could not send private message to ${firstName} (${memberChatId}) - user may not have started the bot yet`);
+        }
+
+        // Notify admins about new member
+        const escapedFirstName = escapeMarkdown(firstName);
+        const escapedLastName = escapeMarkdown(lastName);
+        const tgHandle = username ? `@${escapeMarkdown(username)}` : 'Nema username';
+        const userLink = username 
+          ? `[@${escapeMarkdown(username)}](https://t.me/${username})` 
+          : `[${escapedFirstName}](tg://user?id=${memberChatId})`;
+
+        const adminNotification = `👋 *Novi član u grupi!*
+
+👤 *Ime:* ${escapedFirstName}${lastName ? ` ${escapedLastName}` : ''}
+📱 *Telegram:* ${tgHandle}
+🔗 *Chat ID:* \`${memberChatId}\`
+💬 *Direktan link:* ${userLink}
+📆 *Vrijeme:* ${new Date().toLocaleString('bs-BA')}
+
+_Novi član se pridružio EM FOREX grupi._`;
+
+        for (const adminId of ADMIN_CHAT_IDS) {
+          try {
+            await sendMessage(adminId, adminNotification);
+          } catch (err) {
+            console.error(`Failed to notify admin ${adminId} about new member:`, err);
+          }
         }
       }
     }
