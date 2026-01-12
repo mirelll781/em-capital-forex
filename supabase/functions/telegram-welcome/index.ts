@@ -560,7 +560,7 @@ Datum (opciono): DD.MM.YYYY format`;
 2. Pridružite se grupi za signale
 3. Pripremite pitanja za prvi sastanak
 
-🔗 *Pristup grupi:* https://t.me/+H86SSZlp-lU2M2Uy
+🔗 *Pristup grupi:* https://t.me/+994O794fVBZhYTA6
 
 Za sva pitanja: @EMforexadmin ili @emirbcvc
 
@@ -590,7 +590,7 @@ Hvala vam na povjerenju!
 • Signali nisu finansijski savjet
 • Prošli rezultati ne garantuju buduće
 
-🔗 *Pristup grupi:* https://t.me/+H86SSZlp-lU2M2Uy
+🔗 *Pristup grupi:* https://t.me/+994O794fVBZhYTA6
 
 Za sva pitanja: @EMforexadmin ili @emirbcvc
 
