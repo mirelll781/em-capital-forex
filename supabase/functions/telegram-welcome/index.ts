@@ -108,8 +108,23 @@ const adminMenuKeyboard = {
   ]
 };
 
-// Welcome message for new group members
+// Short welcome message for group (public)
 const getGroupWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u EM Capital, ${firstName}!*
+
+Drago nam je što ste se pridružili! 🙌
+Pogledajte privatnu poruku od bota za sve informacije.`;
+
+// Keyboard for group welcome - link to bot
+const groupWelcomeKeyboard = {
+  inline_keyboard: [
+    [
+      { text: '🤖 Otvori Bota', url: 'https://t.me/emcapitalforexbot?start=welcome' }
+    ]
+  ]
+};
+
+// Detailed welcome message for private chat (sent to new members)
+const getDetailedPrivateWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u EM Capital, ${firstName}!*
 
 Drago nam je što ste se pridružili našoj trading zajednici!
 
@@ -120,8 +135,8 @@ Drago nam je što ste se pridružili našoj trading zajednici!
 
 👇 *Kliknite "Otvori Bota":*`;
 
-// Keyboard for group welcome - link to bot
-const groupWelcomeKeyboard = {
+// Keyboard for detailed private welcome message
+const detailedPrivateWelcomeKeyboard = {
   inline_keyboard: [
     [
       { text: '📝 Registruj se', url: 'https://em-capital-forex.dynu.net/auth' }
@@ -1948,12 +1963,12 @@ Hvala na strpljenju! 🙏`
       }
     }
 
-    // Handle new chat members in groups - ONLY welcome message
+    // Handle new chat members in groups - send short message to group, detailed to private
     if (update.message?.new_chat_members) {
-      const chatId = update.message.chat.id;
+      const groupChatId = update.message.chat.id;
       const newMembers = update.message.new_chat_members;
 
-      console.log(`New members detected in chat ${chatId}:`, newMembers.length);
+      console.log(`New members detected in chat ${groupChatId}:`, newMembers.length);
 
       for (const member of newMembers) {
         if (member.is_bot) {
@@ -1962,14 +1977,27 @@ Hvala na strpljenju! 🙏`
         }
 
         const firstName = member.first_name || 'člane';
-        console.log(`Sending welcome to: ${firstName} (${member.id})`);
+        const memberChatId = member.id;
+        console.log(`Sending welcome to: ${firstName} (${memberChatId})`);
 
-        // Send welcome message with group-specific keyboard (link to bot)
+        // Send short welcome message to group
         await sendMessage(
-          chatId,
+          groupChatId,
           getGroupWelcomeMessage(firstName),
           groupWelcomeKeyboard
         );
+
+        // Try to send detailed message privately to the new member
+        try {
+          await sendMessage(
+            memberChatId,
+            getDetailedPrivateWelcomeMessage(firstName),
+            detailedPrivateWelcomeKeyboard
+          );
+          console.log(`Sent private welcome to ${firstName} (${memberChatId})`);
+        } catch (err) {
+          console.log(`Could not send private message to ${firstName} (${memberChatId}) - user may not have started the bot yet`);
+        }
       }
     }
 
