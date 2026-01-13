@@ -143,6 +143,9 @@ const Admin = () => {
   const [reminderUser, setReminderUser] = useState<Profile | null>(null);
   const [reminderLoading, setReminderLoading] = useState(false);
 
+  // Individual bot reminder loading state
+  const [botReminderLoadingId, setBotReminderLoadingId] = useState<string | null>(null);
+
   useEffect(() => {
     const adminAuth = sessionStorage.getItem("admin_authenticated");
     const savedPassword = sessionStorage.getItem("admin_password");
@@ -735,6 +738,26 @@ const Admin = () => {
       toast.error(error.message || "Greška pri slanju podsjetnika");
     } finally {
       setReminderLoading(false);
+    }
+  };
+
+  const handleSendIndividualBotReminder = async (profile: Profile) => {
+    setBotReminderLoadingId(profile.id);
+    try {
+      const { error } = await supabase.functions.invoke("admin-api", {
+        body: {
+          password: storedPassword,
+          action: "send_individual_bot_reminder",
+          data: { email: profile.email }
+        }
+      });
+      if (error) throw error;
+      toast.success(`📧 Email podsjetnik poslan na ${profile.email}`);
+    } catch (error: any) {
+      console.error("Individual bot reminder error:", error);
+      toast.error(error.message || "Greška pri slanju podsjetnika");
+    } finally {
+      setBotReminderLoadingId(null);
     }
   };
 
@@ -1670,6 +1693,20 @@ const Admin = () => {
                                     title="Uredi username"
                                   >
                                     <Edit className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="text-blue-400 hover:text-blue-300"
+                                    onClick={() => handleSendIndividualBotReminder(profile)}
+                                    disabled={botReminderLoadingId === profile.id}
+                                    title="Pošalji email podsjetnik za bota"
+                                  >
+                                    {botReminderLoadingId === profile.id ? (
+                                      <RefreshCw className="h-4 w-4 animate-spin" />
+                                    ) : (
+                                      <Mail className="h-4 w-4" />
+                                    )}
                                   </Button>
                                 </div>
                               </TableCell>
