@@ -390,6 +390,67 @@ serve(async (req) => {
         );
       }
 
+      case "send_individual_bot_reminder": {
+        const { email } = data;
+
+        if (!email) {
+          throw new Error("Email is required");
+        }
+
+        const resendApiKey = Deno.env.get("RESEND_API_KEY");
+        if (!resendApiKey) throw new Error("Resend API key not configured");
+
+        const resend = new Resend(resendApiKey);
+
+        await resend.emails.send({
+          from: "EM Capital <onboarding@resend.dev>",
+          to: [email],
+          subject: "📱 Povežite svoj Telegram za signal obavijesti!",
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a1a; color: #fff; padding: 30px; border-radius: 10px;">
+              <h2 style="color: #d4af37; margin-bottom: 20px;">📱 Povežite svoj Telegram!</h2>
+              
+              <p style="font-size: 16px; line-height: 1.6;">
+                Dragi člane,
+              </p>
+              
+              <p style="font-size: 16px; line-height: 1.6;">
+                Primijetili smo da još niste povezali svoj Telegram account s našim botom. 
+                Bez toga <strong style="color: #d4af37;">ne možete primati signal obavijesti</strong> na Telegram!
+              </p>
+              
+              <div style="background: #2a2a2a; border-left: 4px solid #d4af37; padding: 15px; margin: 25px 0; border-radius: 5px;">
+                <p style="margin: 0 0 10px 0; font-weight: bold;">Kako povezati Telegram:</p>
+                <ol style="margin: 0; padding-left: 20px;">
+                  <li style="margin-bottom: 8px;">Otvorite Telegram i pronađite bota: <strong>@emcapitalforexbot</strong></li>
+                  <li style="margin-bottom: 8px;">Kliknite "Start" ili pošaljite <code>/start</code></li>
+                  <li style="margin-bottom: 8px;">Slijedite upute za povezivanje s vašim računom</li>
+                </ol>
+              </div>
+              
+              <a href="https://t.me/emcapitalforexbot" style="display: inline-block; background: #d4af37; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 15px 0;">
+                🤖 Otvori @emcapitalforexbot
+              </a>
+              
+              <p style="font-size: 14px; color: #888; margin-top: 25px;">
+                Ako imate bilo kakvih pitanja, slobodno nas kontaktirajte.
+              </p>
+              
+              <hr style="border: none; border-top: 1px solid #333; margin: 25px 0;">
+              <p style="color: #666; font-size: 12px;">
+                EM Capital - Forex Trading Signals & Mentorship
+              </p>
+            </div>
+          `
+        });
+
+        console.log(`Individual bot reminder sent to: ${email}`);
+        return new Response(
+          JSON.stringify({ success: true }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
       case "get_ea_subscriptions": {
         const { data: subscriptions, error } = await supabase
           .from("ea_robot_subscriptions")
