@@ -16,6 +16,7 @@ import SignupSection from "@/components/SignupSection";
 import CustomerReviews from "@/components/CustomerReviews";
 import ContactSection from "@/components/ContactSection";
 import FAQSection from "@/components/FAQSection";
+import TradingRisksSection from "@/components/TradingRisksSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import FloatingElements from "@/components/FloatingElements";
@@ -42,6 +43,7 @@ const Index = () => {
       <CustomerReviews />
       <ContactSection />
       <FAQSection />
+      <TradingRisksSection />
       <CTASection />
       <Footer />
     </main>
