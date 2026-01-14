@@ -12,10 +12,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { 
-  Shield, Users, Search, Calendar, CheckCircle, XCircle, Clock, ArrowLeft, 
-  UserPlus, RefreshCw, Lock, Ban, Trash2, Unlock, MessageSquare, Mail, 
+  Shield, Users, Search, Calendar, CheckCircle, XCircle, ArrowLeft, 
+  UserPlus, RefreshCw, Trash2, Unlock, MessageSquare, Mail, 
   Send, Download, StickyNote, TrendingUp, DollarSign, BarChart3, Bot, Rocket,
-  MailCheck, MailX, RotateCcw, Key, Link, Edit, Bell
+  Key, Link, Edit, Bell, Ban, Lock
 } from "lucide-react";
 import { format, addMonths, isAfter, isBefore, addDays } from "date-fns";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -48,22 +48,6 @@ interface PaymentStats {
   mentorshipCount: number;
   signalsCount: number;
   monthlyData: { month: string; revenue: number }[];
-}
-
-interface EASubscription {
-  id: string;
-  email: string;
-  subscribed_at: string;
-  verified: boolean;
-  verified_at: string | null;
-  verification_token: string;
-  notified: boolean;
-}
-
-interface EAStats {
-  total: number;
-  verified: number;
-  unverified: number;
 }
 
 const Admin = () => {
@@ -115,10 +99,6 @@ const Admin = () => {
   const [newPassword, setNewPassword] = useState("");
   const [passwordResetLoading, setPasswordResetLoading] = useState(false);
   
-  // EA Subscriptions
-  const [eaSubscriptions, setEaSubscriptions] = useState<EASubscription[]>([]);
-  const [eaStats, setEaStats] = useState<EAStats | null>(null);
-  const [eaLoading, setEaLoading] = useState(false);
 
   // Link Telegram Chat ID dialog
   const [linkChatIdDialogOpen, setLinkChatIdDialogOpen] = useState(false);
@@ -159,7 +139,6 @@ const Admin = () => {
     if (isAuthenticated && storedPassword) {
       fetchProfiles();
       fetchPaymentStats();
-      fetchEaSubscriptions();
     }
   }, [isAuthenticated, storedPassword]);
 
@@ -224,57 +203,6 @@ const Admin = () => {
       setPaymentStats(data.stats);
     } catch (error) {
       console.error("Error fetching stats:", error);
-    }
-  };
-
-  const fetchEaSubscriptions = async () => {
-    if (!storedPassword) return;
-    setEaLoading(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("admin-api", {
-        body: { password: storedPassword, action: "get_ea_subscriptions" }
-      });
-      if (error) throw error;
-      setEaSubscriptions(data.subscriptions || []);
-      setEaStats(data.stats);
-    } catch (error) {
-      console.error("Error fetching EA subscriptions:", error);
-      toast.error("Greška pri učitavanju EA pretplata");
-    } finally {
-      setEaLoading(false);
-    }
-  };
-
-  const handleResendVerification = async (subscription: EASubscription) => {
-    try {
-      const { error } = await supabase.functions.invoke("admin-api", {
-        body: { 
-          password: storedPassword, 
-          action: "resend_ea_verification",
-          data: { email: subscription.email, verification_token: subscription.verification_token }
-        }
-      });
-      if (error) throw error;
-      toast.success(`Verifikacijski email poslan na ${subscription.email}`);
-    } catch (error: any) {
-      toast.error(error.message || "Greška pri slanju");
-    }
-  };
-
-  const handleDeleteEaSubscription = async (subscription: EASubscription) => {
-    try {
-      const { error } = await supabase.functions.invoke("admin-api", {
-        body: { 
-          password: storedPassword, 
-          action: "delete_ea_subscription",
-          data: { id: subscription.id }
-        }
-      });
-      if (error) throw error;
-      toast.success(`Pretplata ${subscription.email} obrisana`);
-      await fetchEaSubscriptions();
-    } catch (error: any) {
-      toast.error(error.message || "Greška pri brisanju");
     }
   };
 
@@ -1313,7 +1241,7 @@ const Admin = () => {
             <Button variant="outline" size="sm" onClick={exportToCSV}>
               <Download className="h-4 w-4 mr-2" /> Export
             </Button>
-            <Button variant="outline" size="sm" onClick={() => { fetchProfiles(); fetchPaymentStats(); fetchEaSubscriptions(); }}>
+            <Button variant="outline" size="sm" onClick={() => { fetchProfiles(); fetchPaymentStats(); }}>
               <RefreshCw className="h-4 w-4 mr-2" /> Osvježi
             </Button>
             <Button variant="ghost" size="sm" onClick={handleLogout}>Odjava</Button>
@@ -1331,7 +1259,6 @@ const Admin = () => {
           <Tabs defaultValue="users" className="space-y-6">
             <TabsList>
               <TabsTrigger value="users"><Users className="h-4 w-4 mr-2" /> Korisnici</TabsTrigger>
-              <TabsTrigger value="ea-subscriptions"><Rocket className="h-4 w-4 mr-2" /> EA Pretplate</TabsTrigger>
               <TabsTrigger value="telegram"><Bot className="h-4 w-4 mr-2" /> Telegram</TabsTrigger>
               <TabsTrigger value="stats"><BarChart3 className="h-4 w-4 mr-2" /> Statistika</TabsTrigger>
             </TabsList>
@@ -1407,158 +1334,6 @@ const Admin = () => {
                   </CardContent>
                 </Card>
               </div>
-            </TabsContent>
-
-            <TabsContent value="ea-subscriptions" className="space-y-6">
-              {/* EA Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Card className="bg-primary/10 border-primary/30">
-                  <CardContent className="p-4 text-center">
-                    <Rocket className="h-6 w-6 mx-auto mb-2 text-primary" />
-                    <p className="text-2xl font-bold text-primary">{eaStats?.total || 0}</p>
-                    <p className="text-xs text-muted-foreground">Ukupno pretplata</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-green-500/10 border-green-500/30">
-                  <CardContent className="p-4 text-center">
-                    <MailCheck className="h-6 w-6 mx-auto mb-2 text-green-400" />
-                    <p className="text-2xl font-bold text-green-400">{eaStats?.verified || 0}</p>
-                    <p className="text-xs text-muted-foreground">Verificirano</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-yellow-500/10 border-yellow-500/30">
-                  <CardContent className="p-4 text-center">
-                    <MailX className="h-6 w-6 mx-auto mb-2 text-yellow-400" />
-                    <p className="text-2xl font-bold text-yellow-400">{eaStats?.unverified || 0}</p>
-                    <p className="text-xs text-muted-foreground">Čeka verifikaciju</p>
-                  </CardContent>
-                </Card>
-                <Card className="bg-blue-500/10 border-blue-500/30">
-                  <CardContent className="p-4 text-center">
-                    <TrendingUp className="h-6 w-6 mx-auto mb-2 text-blue-400" />
-                    <p className="text-2xl font-bold text-blue-400">
-                      {eaStats?.total ? Math.round((eaStats.verified / eaStats.total) * 100) : 0}%
-                    </p>
-                    <p className="text-xs text-muted-foreground">Stopa verifikacije</p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Verified Subscriptions */}
-              <Card className="border-green-500/30">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-green-400">
-                    <MailCheck className="h-5 w-5" /> Verificirane pretplate ({eaStats?.verified || 0})
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {eaLoading ? (
-                    <div className="text-center py-4">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto" />
-                    </div>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Email</TableHead>
-                          <TableHead>Pretplaćen</TableHead>
-                          <TableHead>Verificiran</TableHead>
-                          <TableHead>Akcije</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {eaSubscriptions.filter(s => s.verified).map(sub => (
-                          <TableRow key={sub.id}>
-                            <TableCell className="font-medium">{sub.email}</TableCell>
-                            <TableCell>{format(new Date(sub.subscribed_at), "dd.MM.yyyy HH:mm")}</TableCell>
-                            <TableCell>
-                              {sub.verified_at && format(new Date(sub.verified_at), "dd.MM.yyyy HH:mm")}
-                            </TableCell>
-                            <TableCell>
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                className="text-red-400 hover:text-red-300"
-                                onClick={() => handleDeleteEaSubscription(sub)}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                        {eaSubscriptions.filter(s => s.verified).length === 0 && (
-                          <TableRow>
-                            <TableCell colSpan={4} className="text-center text-muted-foreground">
-                              Nema verificiranih pretplata
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Unverified Subscriptions */}
-              <Card className="border-yellow-500/30">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-yellow-400">
-                    <MailX className="h-5 w-5" /> Neverificirane pretplate ({eaStats?.unverified || 0})
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    Ovi korisnici nisu potvrdili svoju email adresu
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  {eaLoading ? (
-                    <div className="text-center py-4">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto" />
-                    </div>
-                  ) : (
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Email</TableHead>
-                          <TableHead>Pretplaćen</TableHead>
-                          <TableHead>Akcije</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {eaSubscriptions.filter(s => !s.verified).map(sub => (
-                          <TableRow key={sub.id}>
-                            <TableCell className="font-medium">{sub.email}</TableCell>
-                            <TableCell>{format(new Date(sub.subscribed_at), "dd.MM.yyyy HH:mm")}</TableCell>
-                            <TableCell className="space-x-2">
-                              <Button 
-                                variant="outline" 
-                                size="sm"
-                                onClick={() => handleResendVerification(sub)}
-                              >
-                                <RotateCcw className="h-4 w-4 mr-1" /> Pošalji ponovo
-                              </Button>
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                className="text-red-400 hover:text-red-300"
-                                onClick={() => handleDeleteEaSubscription(sub)}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                        {eaSubscriptions.filter(s => !s.verified).length === 0 && (
-                          <TableRow>
-                            <TableCell colSpan={3} className="text-center text-muted-foreground">
-                              Sve pretplate su verificirane!
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  )}
-                </CardContent>
-              </Card>
             </TabsContent>
 
             <TabsContent value="telegram" className="space-y-6">
