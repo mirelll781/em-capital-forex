@@ -57,6 +57,11 @@ const certificates = [
     title: "FTMO Passed Verification",
     description: "Uspješno završen FTMO Evaluation Process",
   },
+  {
+    image: certificate10,
+    title: "Plutus Trade Base",
+    description: "Assessment Passed - Mirel Sinanovic",
+  },
 ];
 
 const CertificatesSection = () => {
