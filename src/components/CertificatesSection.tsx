@@ -8,6 +8,7 @@ import certificate5 from "@/assets/certificate-5.png";
 import certificate6 from "@/assets/certificate-6.png";
 import certificate7 from "@/assets/certificate-7.png";
 import certificate8 from "@/assets/certificate-8.png";
+import certificate9 from "@/assets/certificate-9.png";
 
 const certificates = [
   {
@@ -49,6 +50,11 @@ const certificates = [
     image: certificate8,
     title: "FUNDEDX Challenge",
     description: "$5,000 - Phase 1 Passed",
+  },
+  {
+    image: certificate9,
+    title: "FTMO Passed Verification",
+    description: "Uspješno završen FTMO Evaluation Process",
   },
 ];
 
