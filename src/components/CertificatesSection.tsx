@@ -51,6 +51,11 @@ const certificates = [
     title: "FUNDEDX Challenge",
     description: "$5,000 - Phase 1 Passed",
   },
+  {
+    image: certificate9,
+    title: "FTMO Passed Verification",
+    description: "Uspješno završen FTMO Evaluation Process",
+  },
 ];
 
 const CertificatesSection = () => {
