@@ -45,6 +45,11 @@ const certificates = [
     title: "FundedX Achievement",
     description: "50K - 2 Phase - Phase 1 Passed",
   },
+  {
+    image: certificate8,
+    title: "FUNDEDX Challenge",
+    description: "$5,000 - Phase 1 Passed",
+  },
 ];
 
 const CertificatesSection = () => {
