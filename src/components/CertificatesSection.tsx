@@ -9,6 +9,7 @@ import certificate6 from "@/assets/certificate-6.png";
 import certificate7 from "@/assets/certificate-7.png";
 import certificate8 from "@/assets/certificate-8.png";
 import certificate9 from "@/assets/certificate-9.png";
+import certificate10 from "@/assets/certificate-10.png";
 
 const certificates = [
   {
@@ -55,6 +56,11 @@ const certificates = [
     image: certificate9,
     title: "FTMO Passed Verification",
     description: "Uspješno završen FTMO Evaluation Process",
+  },
+  {
+    image: certificate10,
+    title: "Plutus Trade Base",
+    description: "Assessment Passed - Mirel Sinanovic",
   },
 ];
 
