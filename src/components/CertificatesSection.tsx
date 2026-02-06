@@ -7,6 +7,7 @@ import certificate4 from "@/assets/certificate-4.png";
 import certificate5 from "@/assets/certificate-5.png";
 import certificate6 from "@/assets/certificate-6.png";
 import certificate7 from "@/assets/certificate-7.png";
+import certificate8 from "@/assets/certificate-8.png";
 
 const certificates = [
   {
