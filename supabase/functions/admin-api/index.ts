@@ -678,6 +678,38 @@ serve(async (req) => {
         );
       }
 
+      case "create_user": {
+        const { email, password: userPassword, telegram_username } = data;
+
+        if (!email || !userPassword) {
+          return new Response(
+            JSON.stringify({ error: "Email and password are required" }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+
+        // Clean telegram username
+        const cleanTgUsername = telegram_username ? telegram_username.replace(/^@/, '').trim() : null;
+
+        // Create user via admin API (auto-confirms email)
+        const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
+          email,
+          password: userPassword,
+          email_confirm: true,
+          user_metadata: {
+            telegram_username: cleanTgUsername
+          }
+        });
+
+        if (createError) throw createError;
+
+        console.log(`Admin created user: ${email} (ID: ${newUser.user?.id})`);
+        return new Response(
+          JSON.stringify({ success: true, user_id: newUser.user?.id }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
       case "edit_paid_until": {
         const { user_id, paid_until } = data;
 

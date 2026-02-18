@@ -126,6 +126,13 @@ const Admin = () => {
   // Individual bot reminder loading state
   const [botReminderLoadingId, setBotReminderLoadingId] = useState<string | null>(null);
 
+  // Create User dialog
+  const [createUserDialogOpen, setCreateUserDialogOpen] = useState(false);
+  const [createUserEmail, setCreateUserEmail] = useState("");
+  const [createUserPassword, setCreateUserPassword] = useState("");
+  const [createUserTelegram, setCreateUserTelegram] = useState("");
+  const [createUserLoading, setCreateUserLoading] = useState(false);
+
   useEffect(() => {
     const adminAuth = sessionStorage.getItem("admin_authenticated");
     const savedPassword = sessionStorage.getItem("admin_password");
@@ -689,6 +696,44 @@ const Admin = () => {
     }
   };
 
+  const handleCreateUser = async () => {
+    if (!createUserEmail || !createUserPassword) {
+      toast.error("Unesite email i lozinku");
+      return;
+    }
+    if (createUserPassword.length < 8) {
+      toast.error("Lozinka mora imati najmanje 8 karaktera");
+      return;
+    }
+    setCreateUserLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("admin-api", {
+        body: {
+          password: storedPassword,
+          action: "create_user",
+          data: {
+            email: createUserEmail,
+            password: createUserPassword,
+            telegram_username: createUserTelegram
+          }
+        }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast.success(`Korisnik ${createUserEmail} uspješno kreiran`);
+      setCreateUserDialogOpen(false);
+      setCreateUserEmail("");
+      setCreateUserPassword("");
+      setCreateUserTelegram("");
+      await fetchProfiles();
+    } catch (error: any) {
+      console.error("Create user error:", error);
+      toast.error(error.message || "Greška pri kreiranju korisnika");
+    } finally {
+      setCreateUserLoading(false);
+    }
+  };
+
   const exportToCSV = () => {
     const headers = ["Email", "Telegram", "Tip", "Status", "Plaćeno", "Važi do", "Registrovan", "Bilješke"];
     const rows = profiles.map(p => [
@@ -1219,6 +1264,70 @@ const Admin = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Create User Dialog */}
+      <Dialog open={createUserDialogOpen} onOpenChange={setCreateUserDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <UserPlus className="h-5 w-5 text-primary" />
+              Kreiraj novog korisnika
+            </DialogTitle>
+            <DialogDescription>
+              Ručno kreirajte korisnika sa emailom, lozinkom i Telegram usernameom
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Email *</label>
+              <Input
+                type="email"
+                placeholder="korisnik@email.com"
+                value={createUserEmail}
+                onChange={(e) => setCreateUserEmail(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Lozinka *</label>
+              <Input
+                type="text"
+                placeholder="Minimalno 8 karaktera"
+                value={createUserPassword}
+                onChange={(e) => setCreateUserPassword(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                Lozinka mora imati najmanje 8 karaktera. Pošaljite je korisniku putem sigurnog kanala.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Telegram Username</label>
+              <Input
+                type="text"
+                placeholder="@username (opciono)"
+                value={createUserTelegram}
+                onChange={(e) => setCreateUserTelegram(e.target.value)}
+              />
+            </div>
+            <div className="bg-primary/10 border border-primary/30 rounded-lg p-3">
+              <p className="text-sm text-primary">
+                ✓ Email će biti automatski potvrđen. Korisnik može odmah koristiti račun.
+              </p>
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => { setCreateUserDialogOpen(false); setCreateUserEmail(""); setCreateUserPassword(""); setCreateUserTelegram(""); }}>
+              Otkaži
+            </Button>
+            <Button 
+              onClick={handleCreateUser} 
+              disabled={createUserLoading || !createUserEmail || createUserPassword.length < 8}
+            >
+              <UserPlus className="h-4 w-4 mr-2" />
+              {createUserLoading ? "Kreiranje..." : "Kreiraj korisnika"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Header */}
       <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -1232,6 +1341,9 @@ const Admin = () => {
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">
+            <Button variant="default" size="sm" onClick={() => setCreateUserDialogOpen(true)}>
+              <UserPlus className="h-4 w-4 mr-2" /> Kreiraj korisnika
+            </Button>
             <Button variant="default" size="sm" onClick={() => setEaLaunchDialogOpen(true)}>
               <Rocket className="h-4 w-4 mr-2" /> EA Lansiranje
             </Button>
