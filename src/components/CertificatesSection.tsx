@@ -10,6 +10,7 @@ import certificate7 from "@/assets/certificate-7.png";
 import certificate8 from "@/assets/certificate-8.png";
 import certificate9 from "@/assets/certificate-9.png";
 import certificate10 from "@/assets/certificate-10.png";
+import certificate11 from "@/assets/certificate-11.png";
 
 const certificates = [
   {
@@ -61,6 +62,11 @@ const certificates = [
     image: certificate10,
     title: "Plutus Trade Base",
     description: "Assessment Passed - Mirel Sinanovic",
+  },
+  {
+    image: certificate11,
+    title: "Upcomers Thunderbolt",
+    description: "1-Step Challenge Completed - Mirel Sinanovic",
   },
 ];
 
