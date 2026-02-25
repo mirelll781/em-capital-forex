@@ -13,6 +13,7 @@ import certificate10 from "@/assets/certificate-10.png";
 import certificate11 from "@/assets/certificate-11.png";
 import certificate12 from "@/assets/certificate-12.png";
 import certificate13 from "@/assets/certificate-13.png";
+import certificate14 from "@/assets/certificate-14.png";
 
 const certificates = [
   {
@@ -79,6 +80,11 @@ const certificates = [
     image: certificate13,
     title: "FundedNext Elite Trader",
     description: "Stellar 2-Step Challenge P1 | 15K - Meho Velic",
+  },
+  {
+    image: certificate14,
+    title: "FTMO Challenge Passed",
+    description: "Azemir Avdic - Feb 2026",
   },
 ];
 
