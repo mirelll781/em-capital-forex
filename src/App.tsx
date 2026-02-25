@@ -13,7 +13,7 @@ import Maintenance from "./pages/Maintenance";
 const queryClient = new QueryClient();
 
 // MAINTENANCE MODE: Postavi na true da aktiviraš maintenance stranicu
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
