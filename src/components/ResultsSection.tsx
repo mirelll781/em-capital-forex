@@ -22,11 +22,59 @@ import result20 from "@/assets/real-result-20.png";
 import result21 from "@/assets/real-result-21.png";
 import result22 from "@/assets/real-result-22.png";
 import result23 from "@/assets/real-result-23.png";
+import result24 from "@/assets/real-result-24.png";
+import result25 from "@/assets/real-result-25.png";
+import result26 from "@/assets/real-result-26.png";
+import result27 from "@/assets/real-result-27.png";
+import result28 from "@/assets/real-result-28.png";
+import result29 from "@/assets/real-result-29.png";
+import result30 from "@/assets/real-result-30.png";
+import result31 from "@/assets/real-result-31.png";
 import { TrendingUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const results = [
+  {
+    image: result26,
+    title: "XAUUSD Multiple Trades - Aldin",
+    description: "Dosta za danas 💪",
+  },
+  {
+    image: result27,
+    title: "XAUUSD Buy - Almir Zahirovic",
+    description: "+249.85$ profit",
+  },
+  {
+    image: result31,
+    title: "US30 & GBPUSD & XAUUSD - Emil ZONA",
+    description: "+140.74$ profit",
+  },
+  {
+    image: result30,
+    title: "DJ30 Buy - SALIH ALAGIC",
+    description: "+167.71$ profit",
+  },
+  {
+    image: result28,
+    title: "XAUUSD Sell - Emrah",
+    description: "+740.00$ profit",
+  },
+  {
+    image: result29,
+    title: "XAUUSD Buy & Sell",
+    description: "+1,348.13$ profit",
+  },
+  {
+    image: result24,
+    title: "XAUUSD Buy",
+    description: "+60.10$ profit",
+  },
+  {
+    image: result25,
+    title: "XAUUSD Buy",
+    description: "+559.72$ profit",
+  },
   {
     image: result10,
     title: "XAUUSD Buy",
