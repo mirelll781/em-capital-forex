@@ -425,6 +425,11 @@ Možeš koristiti i dugmad u meniju za brži pristup.`;
 • \`/poruka Tekst poruke\` - Pošalji poruku svim aktivnim članovima (privatno)
 • \`/grupapost Tekst poruke\` - Pošalji poruku u grupu EM FOREX
 
+🚫 *Block lista bota:*
+• \`/blokirajbot @username\` - Blokiraj korisnika na botu
+• \`/blokirajbot chat_id\` - Blokiraj po Chat ID
+• \`/odblokirajbot @username\` - Odblokiraj korisnika
+
 💡 *Napomene:*
 • Mentorship = 3 mjeseca
 • Signals = 1 mjesec
