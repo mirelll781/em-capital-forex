@@ -37,21 +37,21 @@ export type Database = {
           blocked_at: string
           id: string
           reason: string | null
-          telegram_chat_id: number
+          telegram_chat_id: number | null
           telegram_username: string | null
         }
         Insert: {
           blocked_at?: string
           id?: string
           reason?: string | null
-          telegram_chat_id: number
+          telegram_chat_id?: number | null
           telegram_username?: string | null
         }
         Update: {
           blocked_at?: string
           id?: string
           reason?: string | null
-          telegram_chat_id?: number
+          telegram_chat_id?: number | null
           telegram_username?: string | null
         }
         Relationships: []
