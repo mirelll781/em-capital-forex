@@ -425,6 +425,11 @@ Možeš koristiti i dugmad u meniju za brži pristup.`;
 • \`/poruka Tekst poruke\` - Pošalji poruku svim aktivnim članovima (privatno)
 • \`/grupapost Tekst poruke\` - Pošalji poruku u grupu EM FOREX
 
+🚫 *Block lista bota:*
+• \`/blokirajbot @username\` - Blokiraj korisnika na botu
+• \`/blokirajbot chat_id\` - Blokiraj po Chat ID
+• \`/odblokirajbot @username\` - Odblokiraj korisnika
+
 💡 *Napomene:*
 • Mentorship = 3 mjeseca
 • Signals = 1 mjesec
@@ -1638,6 +1643,143 @@ _Korisnik čeka uplatu. Koristi /platio da aktiviraš članarinu._`;
     // Handle Telegram webhook updates
     const update = body;
     console.log('Received Telegram update:', JSON.stringify(update, null, 2));
+
+    // --- BLOCK LIST CHECK ---
+    // Get the chat ID from message or callback query
+    const senderChatId = update.message?.from?.id || update.callback_query?.from?.id;
+    const senderUsername = update.message?.from?.username || update.callback_query?.from?.username;
+    
+    if (senderChatId && !isAdmin(senderChatId)) {
+      const supabaseCheck = getSupabaseClient();
+      let isBlocked = false;
+      
+      // Check by chat_id first
+      const { data: blockedByChatId } = await supabaseCheck
+        .from('blocked_bot_users')
+        .select('id')
+        .eq('telegram_chat_id', senderChatId)
+        .maybeSingle();
+      
+      if (blockedByChatId) {
+        isBlocked = true;
+      } else if (senderUsername) {
+        // Check by username
+        const { data: blockedByUsername } = await supabaseCheck
+          .from('blocked_bot_users')
+          .select('id')
+          .ilike('telegram_username', senderUsername)
+          .maybeSingle();
+        
+        if (blockedByUsername) {
+          isBlocked = true;
+          // Also save chat_id for future lookups
+          await supabaseCheck
+            .from('blocked_bot_users')
+            .update({ telegram_chat_id: senderChatId })
+            .ilike('telegram_username', senderUsername);
+        }
+      }
+      
+      if (isBlocked) {
+        console.log(`Blocked user ${senderChatId} (@${senderUsername}) tried to use bot - ignoring`);
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+    // --- END BLOCK LIST CHECK ---
+
+    // Handle admin bot block/unblock commands
+    if (update.message?.text?.startsWith('/blokirajbot')) {
+      const chatId = update.message.chat.id;
+      if (!isAdmin(chatId)) {
+        await sendMessage(chatId, '❌ Nemate ovlaštenja za ovu komandu.');
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const args = update.message.text.replace('/blokirajbot', '').trim();
+      if (!args) {
+        await sendMessage(chatId, '❌ Korištenje: `/blokirajbot @username` ili `/blokirajbot chat_id`');
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const supabaseBlock = getSupabaseClient();
+      const identifier = args.startsWith('@') ? args.slice(1) : args;
+      const isNumeric = /^\d+$/.test(identifier);
+      
+      if (isNumeric) {
+        const { error } = await supabaseBlock
+          .from('blocked_bot_users')
+          .upsert({ telegram_chat_id: parseInt(identifier), reason: 'Blokiran od strane admina' }, { onConflict: 'telegram_chat_id' });
+        if (error) {
+          await sendMessage(chatId, `❌ Greška: ${error.message}`);
+        } else {
+          await sendMessage(chatId, `✅ Korisnik sa Chat ID \`${identifier}\` je blokiran na botu.`);
+        }
+      } else {
+        // Check if already exists
+        const { data: existing } = await supabaseBlock
+          .from('blocked_bot_users')
+          .select('id')
+          .ilike('telegram_username', identifier)
+          .maybeSingle();
+        
+        if (existing) {
+          await sendMessage(chatId, `⚠️ @${identifier} je već na block listi.`);
+        } else {
+          const { error } = await supabaseBlock
+            .from('blocked_bot_users')
+            .insert({ telegram_username: identifier, reason: 'Blokiran od strane admina' });
+          if (error) {
+            await sendMessage(chatId, `❌ Greška: ${error.message}`);
+          } else {
+            await sendMessage(chatId, `✅ @${identifier} je blokiran na botu.`);
+          }
+        }
+      }
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (update.message?.text?.startsWith('/odblokirajbot')) {
+      const chatId = update.message.chat.id;
+      if (!isAdmin(chatId)) {
+        await sendMessage(chatId, '❌ Nemate ovlaštenja za ovu komandu.');
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const args = update.message.text.replace('/odblokirajbot', '').trim();
+      if (!args) {
+        await sendMessage(chatId, '❌ Korištenje: `/odblokirajbot @username` ili `/odblokirajbot chat_id`');
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      const supabaseUnblock = getSupabaseClient();
+      const identifier = args.startsWith('@') ? args.slice(1) : args;
+      const isNumeric = /^\d+$/.test(identifier);
+      
+      let deleteQuery;
+      if (isNumeric) {
+        deleteQuery = supabaseUnblock.from('blocked_bot_users').delete().eq('telegram_chat_id', parseInt(identifier));
+      } else {
+        deleteQuery = supabaseUnblock.from('blocked_bot_users').delete().ilike('telegram_username', identifier);
+      }
+      
+      const { error, count } = await deleteQuery;
+      if (error) {
+        await sendMessage(chatId, `❌ Greška: ${error.message}`);
+      } else {
+        await sendMessage(chatId, `✅ Korisnik ${args} je odblokiran na botu.`);
+      }
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
     // Handle admin commands
     if (update.message?.text?.startsWith('/platio')) {

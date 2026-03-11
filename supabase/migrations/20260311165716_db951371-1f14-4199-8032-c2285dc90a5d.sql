@@ -1,0 +1,1 @@
+ALTER TABLE public.blocked_bot_users ALTER COLUMN telegram_chat_id DROP NOT NULL;

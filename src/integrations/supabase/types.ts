@@ -32,6 +32,30 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_bot_users: {
+        Row: {
+          blocked_at: string
+          id: string
+          reason: string | null
+          telegram_chat_id: number | null
+          telegram_username: string | null
+        }
+        Insert: {
+          blocked_at?: string
+          id?: string
+          reason?: string | null
+          telegram_chat_id?: number | null
+          telegram_username?: string | null
+        }
+        Update: {
+          blocked_at?: string
+          id?: string
+          reason?: string | null
+          telegram_chat_id?: number | null
+          telegram_username?: string | null
+        }
+        Relationships: []
+      }
       ea_robot_subscriptions: {
         Row: {
           email: string
