@@ -208,7 +208,7 @@ Premium trade setupi za one koji žele jasne i strukturirane trade ideje, uz str
 
 Za sva pitanja možete nas kontaktirati:
 
-👤 *Admin:* @EMforexadmin
+👤 *Admin:* @mirelll87
 👤 *Telegram:* @emirbcvc
 📧 *Email:* emcapital3@gmail.com
 📸 *Instagram:* [em.capital1](https://www.instagram.com/em.capital1)
