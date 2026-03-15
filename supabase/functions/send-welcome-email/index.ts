@@ -69,7 +69,7 @@ const handler = async (req: Request): Promise<Response> => {
               <div style="background-color: #1e293b; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
                 <h3 style="color: #fbbf24; margin: 0 0 15px; font-size: 16px;">🚀 Sljedeći koraci:</h3>
                 <ol style="color: #e2e8f0; margin: 0; padding-left: 20px; line-height: 1.8;">
-                  <li>Kontaktirajte <strong>@EMforexadmin</strong> na Telegramu za informacije o plaćanju</li>
+                  <li>Kontaktirajte <strong>@mirelll87</strong> na Telegramu za informacije o plaćanju</li>
                   <li>Odaberite paket: <strong>Mentorship</strong> (200€/mj) ili <strong>Premium Signali</strong> (49€/mj)</li>
                   <li>Nakon uplate, admin aktivira vašu članarinu</li>
                   <li>Dobijate pristup grupi i ekskluzivnom sadržaju</li>
