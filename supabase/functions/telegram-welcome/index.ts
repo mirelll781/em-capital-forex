@@ -597,7 +597,7 @@ Hvala vam na povjerenju!
 
 🔗 *Pristup grupi:* https://t.me/+994O794fVBZhYTA6
 
-Za sva pitanja: @EMforexadmin ili @emirbcvc
+Za sva pitanja: @mirelll87 ili @emirbcvc
 
 📈 *Sretno sa tradingom!*`;
     }
