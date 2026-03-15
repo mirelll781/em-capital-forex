@@ -1381,7 +1381,7 @@ function getEaLaunchMessage(): string {
 
 🛒 *Kupite sada:* em-capital-forex.dynu.net/#ea-robots
 
-Za pitanja: @EMforexadmin ili @emirbcvc`;
+Za pitanja: @mirelll87 ili @emirbcvc`;
 }
 
 // Handle EA Robot launch announcement to group
