@@ -202,7 +202,7 @@ Premium trade setupi za one koji žele jasne i strukturirane trade ideje, uz str
 ⚠️ Signali nisu finansijski savjet i ne garantuju profit.
 
 💳 *Uplata:* [Klikni ovdje za Revolut](https://revolut.me/emiir_bcvc)
-👉 Za pristup kontaktiraj: @EMforexadmin ili @emirbcvc`,
+👉 Za pristup kontaktiraj: @mirelll87 ili @emirbcvc`,
 
   contact: `📞 *Kontakt*
 
