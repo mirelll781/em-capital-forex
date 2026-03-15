@@ -815,7 +815,7 @@ Hvala vam na produženoj uplati!
 ⏱️ *Produženo za:* ${periodLabel}
 📅 *Novi rok:* ${formatDate(newExpiry)}
 
-Za sva pitanja kontaktirajte @EMforexadmin`;
+Za sva pitanja kontaktirajte @mirelll87`;
 
     await sendMessage(updatedUser.telegram_chat_id, userNotification);
     console.log(`Sent extension notification to user ${updatedUser.email} (chat_id: ${updatedUser.telegram_chat_id})`);
