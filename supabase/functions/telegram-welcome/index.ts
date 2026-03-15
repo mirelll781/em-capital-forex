@@ -945,7 +945,7 @@ Unesite isti Telegram username prilikom registracije.`;
 ⚪ *Status:* Čeka uplatu
 
 💳 Za aktivaciju članarine kontaktirajte:
-👉 @EMforexadmin ili @emirbcvc`;
+👉 @mirelll87 ili @emirbcvc`;
   }
 
   const daysLeft = user.paid_until ? Math.ceil((new Date(user.paid_until).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : 0;
