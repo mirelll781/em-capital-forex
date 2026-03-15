@@ -8,7 +8,7 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 // Admin chat IDs to receive notifications
-const ADMIN_CHAT_IDS = [933210834, 7173078604]; // @EMforexadmin and @emirbcvc
+const ADMIN_CHAT_IDS = [933210834, 7173078604]; // @mirelll87 and @emirbcvc
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
