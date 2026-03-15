@@ -960,7 +960,7 @@ ${status.emoji} *Status:* ${status.text} ${daysText}
 💰 *Uplaćeno:* ${formatDate(user.paid_at ? new Date(user.paid_at) : null)}
 📅 *Važi do:* ${formatDate(user.paid_until ? new Date(user.paid_until) : null)}
 
-${status.text === 'Aktivan' ? '✅ Vaša članarina je aktivna!' : '⚠️ Za produženje članarine kontaktirajte @EMforexadmin'}`;
+${status.text === 'Aktivan' ? '✅ Vaša članarina je aktivna!' : '⚠️ Za produženje članarine kontaktirajte @mirelll87'}`;
 }
 
 // Handle /clanovi command - list all members (returns array of messages to handle Telegram's 4096 char limit)
