@@ -8,7 +8,7 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 // Admin chat IDs to receive notifications
-const ADMIN_CHAT_IDS = [933210834, 7173078604]; // @EMforexadmin and @emirbcvc
+const ADMIN_CHAT_IDS = [933210834, 7173078604]; // @mirelll87 and @emirbcvc
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -185,7 +185,7 @@ Strukturisan mentorship program namijenjen potpunim početnicima i onima koji ž
 • one koji nisu spremni učiti
 
 💳 *Uplata:* [Klikni ovdje za Revolut](https://revolut.me/emiir_bcvc)
-👉 Za prijavu kontaktiraj: @EMforexadmin ili @emirbcvc`,
+👉 Za prijavu kontaktiraj: @mirelll87 ili @emirbcvc`,
 
   signals: `🔵 *Premium Trade Setupi*
 
@@ -202,13 +202,13 @@ Premium trade setupi za one koji žele jasne i strukturirane trade ideje, uz str
 ⚠️ Signali nisu finansijski savjet i ne garantuju profit.
 
 💳 *Uplata:* [Klikni ovdje za Revolut](https://revolut.me/emiir_bcvc)
-👉 Za pristup kontaktiraj: @EMforexadmin ili @emirbcvc`,
+👉 Za pristup kontaktiraj: @mirelll87 ili @emirbcvc`,
 
   contact: `📞 *Kontakt*
 
 Za sva pitanja možete nas kontaktirati:
 
-👤 *Admin:* @EMforexadmin
+👤 *Admin:* @mirelll87
 👤 *Telegram:* @emirbcvc
 📧 *Email:* emcapital3@gmail.com
 📸 *Instagram:* [em.capital1](https://www.instagram.com/em.capital1)
@@ -567,7 +567,7 @@ Datum (opciono): DD.MM.YYYY format`;
 
 🔗 *Pristup grupi:* https://t.me/+994O794fVBZhYTA6
 
-Za sva pitanja: @EMforexadmin ili @emirbcvc
+Za sva pitanja: @mirelll87 ili @emirbcvc
 
 💪 *Sretno i vidimo se na prvom Zoom pozivu!*`;
     } else {
@@ -597,7 +597,7 @@ Hvala vam na povjerenju!
 
 🔗 *Pristup grupi:* https://t.me/+994O794fVBZhYTA6
 
-Za sva pitanja: @EMforexadmin ili @emirbcvc
+Za sva pitanja: @mirelll87 ili @emirbcvc
 
 📈 *Sretno sa tradingom!*`;
     }
@@ -815,7 +815,7 @@ Hvala vam na produženoj uplati!
 ⏱️ *Produženo za:* ${periodLabel}
 📅 *Novi rok:* ${formatDate(newExpiry)}
 
-Za sva pitanja kontaktirajte @EMforexadmin`;
+Za sva pitanja kontaktirajte @mirelll87`;
 
     await sendMessage(updatedUser.telegram_chat_id, userNotification);
     console.log(`Sent extension notification to user ${updatedUser.email} (chat_id: ${updatedUser.telegram_chat_id})`);
@@ -945,7 +945,7 @@ Unesite isti Telegram username prilikom registracije.`;
 ⚪ *Status:* Čeka uplatu
 
 💳 Za aktivaciju članarine kontaktirajte:
-👉 @EMforexadmin ili @emirbcvc`;
+👉 @mirelll87 ili @emirbcvc`;
   }
 
   const daysLeft = user.paid_until ? Math.ceil((new Date(user.paid_until).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) : 0;
@@ -960,7 +960,7 @@ ${status.emoji} *Status:* ${status.text} ${daysText}
 💰 *Uplaćeno:* ${formatDate(user.paid_at ? new Date(user.paid_at) : null)}
 📅 *Važi do:* ${formatDate(user.paid_until ? new Date(user.paid_until) : null)}
 
-${status.text === 'Aktivan' ? '✅ Vaša članarina je aktivna!' : '⚠️ Za produženje članarine kontaktirajte @EMforexadmin'}`;
+${status.text === 'Aktivan' ? '✅ Vaša članarina je aktivna!' : '⚠️ Za produženje članarine kontaktirajte @mirelll87'}`;
 }
 
 // Handle /clanovi command - list all members (returns array of messages to handle Telegram's 4096 char limit)
@@ -1204,7 +1204,7 @@ Primjer:
 ${messageText.trim()}
 
 ━━━━━━━━━━━━━━━━━
-_Za pitanja: @EMforexadmin_`;
+_Za pitanja: @mirelll87_`;
 
   for (const member of activeMembers) {
     try {
@@ -1381,7 +1381,7 @@ function getEaLaunchMessage(): string {
 
 🛒 *Kupite sada:* em-capital-forex.dynu.net/#ea-robots
 
-Za pitanja: @EMforexadmin ili @emirbcvc`;
+Za pitanja: @mirelll87 ili @emirbcvc`;
 }
 
 // Handle EA Robot launch announcement to group

@@ -363,7 +363,7 @@ export default function Profile() {
             </p>
             <div className="flex flex-wrap gap-3">
               <a 
-                href="https://t.me/EMforexadmin" 
+                href="https://t.me/mirelll87" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >
