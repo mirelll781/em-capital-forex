@@ -185,7 +185,7 @@ Strukturisan mentorship program namijenjen potpunim početnicima i onima koji ž
 • one koji nisu spremni učiti
 
 💳 *Uplata:* [Klikni ovdje za Revolut](https://revolut.me/emiir_bcvc)
-👉 Za prijavu kontaktiraj: @EMforexadmin ili @emirbcvc`,
+👉 Za prijavu kontaktiraj: @mirelll87 ili @emirbcvc`,
 
   signals: `🔵 *Premium Trade Setupi*
 
