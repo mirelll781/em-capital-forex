@@ -1204,7 +1204,7 @@ Primjer:
 ${messageText.trim()}
 
 ━━━━━━━━━━━━━━━━━
-_Za pitanja: @EMforexadmin_`;
+_Za pitanja: @mirelll87_`;
 
   for (const member of activeMembers) {
     try {
