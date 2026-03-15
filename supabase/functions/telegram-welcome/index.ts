@@ -567,7 +567,7 @@ Datum (opciono): DD.MM.YYYY format`;
 
 🔗 *Pristup grupi:* https://t.me/+994O794fVBZhYTA6
 
-Za sva pitanja: @EMforexadmin ili @emirbcvc
+Za sva pitanja: @mirelll87 ili @emirbcvc
 
 💪 *Sretno i vidimo se na prvom Zoom pozivu!*`;
     } else {
