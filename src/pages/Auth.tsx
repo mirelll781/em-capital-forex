@@ -298,7 +298,7 @@ export default function Auth() {
               <ol className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="bg-primary text-primary-foreground w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
-                  <span>Kontaktirajte <strong>@mirelll87</strong> za uplatu</span>
+                  <span>Kontaktirajte <strong>@EMforexadmin</strong> za uplatu</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="bg-primary text-primary-foreground w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
