@@ -49,11 +49,10 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold mb-4">Brzi Linkovi</h4>
             <ul className="space-y-3">
-              <li><a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Značajke</a></li>
-              <li><a href="#services" className="text-muted-foreground hover:text-primary transition-colors">Usluge</a></li>
-              <li><a href="#reviews" className="text-muted-foreground hover:text-primary transition-colors">Iskustva</a></li>
+              <li><a href="#mentorship" className="text-muted-foreground hover:text-primary transition-colors">Mentorship Program</a></li>
+              <li><a href="#vip" className="text-muted-foreground hover:text-primary transition-colors">VIP Trading Grupa</a></li>
+              <li><a href="#standard" className="text-muted-foreground hover:text-primary transition-colors">Standard Grupa</a></li>
               <li><a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Kontakt</a></li>
-              <li><a href="#faq" className="text-muted-foreground hover:text-primary transition-colors">FAQ</a></li>
             </ul>
           </div>
 
@@ -63,7 +62,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Uvjeti korištenja</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privatnost</a></li>
-              <li><a href="#rizici" className="text-muted-foreground hover:text-primary transition-colors">Rizici trgovanja</a></li>
+              <li><a href="https://t.me/emcapitalforexbot" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Telegram Bot</a></li>
               <li><a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Kontakt</a></li>
             </ul>
           </div>

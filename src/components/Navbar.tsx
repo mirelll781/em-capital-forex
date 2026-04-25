@@ -14,13 +14,10 @@ import {
 import logo from "@/assets/obsidian-logo.png";
 
 const navLinks = [
-  { label: "Usluge", href: "#services" },
-  { label: "Značajke", href: "#features" },
-  { label: "Rezultati", href: "#rezultati" },
-  { label: "Edukacija", href: "#edukacija" },
-  { label: "Iskustva", href: "#reviews" },
+  { label: "Mentorship", href: "#mentorship" },
+  { label: "VIP Grupa", href: "#vip" },
+  { label: "Standard Grupa", href: "#standard" },
   { label: "Kontakt", href: "#contact" },
-  { label: "FAQ", href: "#faq" },
 ];
 
 const Navbar = () => {
@@ -164,9 +161,9 @@ const Navbar = () => {
                 </Button>
               </Link>
             )}
-            <a href="#signup">
+            <a href="#paketi">
               <Button variant="hero" size="lg">
-                Započni Odmah
+                Pogledaj Programe
               </Button>
             </a>
           </div>
@@ -245,9 +242,9 @@ const Navbar = () => {
                 </Link>
               )}
               
-              <a href="#signup" onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="#paketi" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button variant="hero" size="lg" className="mt-2 w-full">
-                  Započni Odmah
+                  Pogledaj Programe
                 </Button>
               </a>
             </div>
