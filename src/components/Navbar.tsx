@@ -14,13 +14,10 @@ import {
 import logo from "@/assets/obsidian-logo.png";
 
 const navLinks = [
-  { label: "Usluge", href: "#services" },
-  { label: "Značajke", href: "#features" },
-  { label: "Rezultati", href: "#rezultati" },
-  { label: "Edukacija", href: "#edukacija" },
-  { label: "Iskustva", href: "#reviews" },
+  { label: "Mentorship", href: "#mentorship" },
+  { label: "VIP Grupa", href: "#vip" },
+  { label: "Standard Grupa", href: "#standard" },
   { label: "Kontakt", href: "#contact" },
-  { label: "FAQ", href: "#faq" },
 ];
 
 const Navbar = () => {
