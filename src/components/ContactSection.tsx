@@ -36,6 +36,17 @@ const ContactSection = () => {
   const [submittedTopic, setSubmittedTopic] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (customEvent.detail) {
+        setFormData(prev => ({ ...prev, topic: customEvent.detail }));
+      }
+    };
+    window.addEventListener("preselect-topic", handler);
+    return () => window.removeEventListener("preselect-topic", handler);
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
