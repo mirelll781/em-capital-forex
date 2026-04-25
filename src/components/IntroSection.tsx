@@ -16,7 +16,7 @@ const IntroSection = () => {
           </p>
           
           <p className="text-muted-foreground text-base md:text-lg mb-6 max-w-3xl mx-auto leading-relaxed">
-            EM Capital je trading mentorship i signal servis namijenjen početnicima koji žele naučiti kako pravilno upravljati rizikom i razviti disciplinu potrebnu za dugoročnu konzistentnost na forex tržištu.
+            Obsidian je trading mentorship i signal servis namijenjen početnicima koji žele naučiti kako pravilno upravljati rizikom i razviti disciplinu potrebnu za dugoročnu konzistentnost na forex tržištu.
           </p>
           
           {/* Features */}

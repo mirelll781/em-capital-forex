@@ -372,7 +372,7 @@ const Admin = () => {
           body: {
             password: storedPassword,
             action: "send_email",
-            data: { email: userToMessage.email, subject: messageSubject || "Poruka od EM Capital", message: messageText }
+            data: { email: userToMessage.email, subject: messageSubject || "Poruka od Obsidian", message: messageText }
           }
         });
         if (error) throw error;

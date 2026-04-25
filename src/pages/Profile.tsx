@@ -141,8 +141,8 @@ export default function Profile() {
               Nazad
             </Button>
             <a href="/" className="flex items-center gap-2">
-              <img src={logo} alt="EM Capital" className="w-8 h-8 rounded-lg" />
-              <span className="font-heading font-bold">EM Capital</span>
+              <img src={logo} alt="Obsidian" className="w-8 h-8 rounded-lg" />
+              <span className="font-heading font-bold">Obsidian</span>
             </a>
             <Button 
               variant="ghost" 
@@ -311,7 +311,7 @@ export default function Profile() {
                   <Bot className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium">EM Capital Bot</p>
+                  <p className="font-medium">Obsidian Bot</p>
                   <p className="text-sm text-muted-foreground">@emcapitalforexbot</p>
                 </div>
               </div>

@@ -86,7 +86,7 @@ serve(async (req) => {
     doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
     doc.setFontSize(28);
     doc.setFont('helvetica', 'bold');
-    doc.text('EM CAPITAL', 20, 30);
+    doc.text('OBSIDIAN', 20, 30);
 
     // Subtitle
     doc.setTextColor(180, 180, 180);
@@ -195,7 +195,7 @@ serve(async (req) => {
     doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
-    doc.text('EM Capital | Forex Trading Signals & Mentorship', 105, 270, { align: 'center' });
+    doc.text('Obsidian | Forex Trading Signals & Mentorship', 105, 270, { align: 'center' });
     doc.text('Telegram: @emcapitalforexbot | Email: emcapital3@gmail.com', 105, 276, { align: 'center' });
     doc.text('Hvala vam na povjerenju!', 105, 285, { align: 'center' });
 

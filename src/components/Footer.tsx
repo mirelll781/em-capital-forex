@@ -11,8 +11,8 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="EM Capital Logo" className="w-10 h-10 rounded-lg object-cover" />
-              <span className="text-2xl font-heading font-bold">EM Capital</span>
+              <img src={logo} alt="Obsidian Logo" className="w-10 h-10 rounded-lg object-cover" />
+              <span className="text-2xl font-heading font-bold">Obsidian</span>
             </div>
             <p className="text-muted-foreground max-w-md mb-6">
               Vaš partner u uspješnom Forex trgovanju. Premium signali, edukacija i podrška za postizanje vaših financijskih ciljeva.
@@ -71,7 +71,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-muted-foreground text-sm">
-            © {currentYear} EM Capital. Sva prava pridržana.
+            © {currentYear} Obsidian. Sva prava pridržana.
           </p>
           <p className="text-muted-foreground text-xs text-center md:text-right whitespace-nowrap">
             Upozorenje: Trgovanje na Forex tržištu nosi visok stupanj rizika. Prošli rezultati ne garantiraju buduće performanse.

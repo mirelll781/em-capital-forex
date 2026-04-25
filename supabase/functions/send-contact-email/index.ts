@@ -37,9 +37,9 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "EM Capital <onboarding@resend.dev>",
+        from: "Obsidian <onboarding@resend.dev>",
         to: ["emcapital3@gmail.com"],
-        subject: `[${topicLabel}] Nova poruka od ${name} - EM Capital`,
+        subject: `[${topicLabel}] Nova poruka od ${name} - Obsidian`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #10b981;">Nova kontakt poruka</h2>

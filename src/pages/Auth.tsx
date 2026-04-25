@@ -372,7 +372,7 @@ export default function Auth() {
 
           <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
             <div className="flex justify-center mb-6">
-              <img src={logo} alt="EM Capital" className="h-16 w-16 rounded-full" />
+              <img src={logo} alt="Obsidian" className="h-16 w-16 rounded-full" />
             </div>
 
             <h1 className="text-2xl font-bold text-center text-foreground mb-2">
@@ -429,7 +429,7 @@ export default function Auth() {
         <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <img src={logo} alt="EM Capital" className="h-16 w-16 rounded-full" />
+            <img src={logo} alt="Obsidian" className="h-16 w-16 rounded-full" />
           </div>
 
           {/* Title */}
@@ -438,8 +438,8 @@ export default function Auth() {
           </h1>
           <p className="text-muted-foreground text-center mb-6">
             {isLogin 
-              ? 'Prijavite se na svoj EM Capital račun' 
-              : 'Kreirajte svoj EM Capital račun'}
+              ? 'Prijavite se na svoj Obsidian račun' 
+              : 'Kreirajte svoj Obsidian račun'}
           </p>
 
           {/* Form */}
