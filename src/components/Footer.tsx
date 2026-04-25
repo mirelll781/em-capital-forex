@@ -62,7 +62,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Uvjeti korištenja</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privatnost</a></li>
-              <li><a href="#rizici" className="text-muted-foreground hover:text-primary transition-colors">Rizici trgovanja</a></li>
+              <li><a href="https://t.me/emcapitalforexbot" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Telegram Bot</a></li>
               <li><a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">Kontakt</a></li>
             </ul>
           </div>
