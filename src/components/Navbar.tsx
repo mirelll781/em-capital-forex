@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/obsidian-logo.png";
 
 const navLinks = [
   { label: "Usluge", href: "#services" },
@@ -102,8 +102,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-auto min-h-[56px] md:h-20 py-2 md:py-0">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 md:gap-3 flex-shrink-0">
-            <img src={logo} alt="EM Capital Logo" className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover" />
-            <span className="text-lg md:text-xl font-heading font-bold hidden sm:block">EM Capital</span>
+            <img src={logo} alt="Obsidian Logo" className="w-8 h-8 md:w-10 md:h-10 rounded-lg object-cover" />
+            <span className="text-lg md:text-xl font-heading font-bold hidden sm:block">Obsidian</span>
           </a>
 
           {/* Navigation Links - Visible on all screen sizes */}

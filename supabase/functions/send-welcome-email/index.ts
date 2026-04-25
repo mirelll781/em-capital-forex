@@ -30,9 +30,9 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "EM Capital <onboarding@resend.dev>",
+        from: "Obsidian <onboarding@resend.dev>",
         to: [email],
-        subject: "Dobrodošli u EM Capital! 🎉",
+        subject: "Dobrodošli u Obsidian! 🎉",
         html: `
           <!DOCTYPE html>
           <html>
@@ -45,7 +45,7 @@ const handler = async (req: Request): Promise<Response> => {
               
               <!-- Header -->
               <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #fbbf24; margin: 0; font-size: 28px;">EM Capital</h1>
+                <h1 style="color: #fbbf24; margin: 0; font-size: 28px;">Obsidian</h1>
                 <p style="color: #94a3b8; margin: 10px 0 0;">Trading Mentorship & Signals</p>
               </div>
               
@@ -53,7 +53,7 @@ const handler = async (req: Request): Promise<Response> => {
               <div style="background-color: #1e293b; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
                 <h2 style="color: #22c55e; margin: 0 0 15px; font-size: 22px;">✅ Registracija uspješna!</h2>
                 <p style="color: #e2e8f0; margin: 0; line-height: 1.6;">
-                  Hvala vam što ste se registrovali na EM Capital platformu. 
+                  Hvala vam što ste se registrovali na Obsidian platformu. 
                   Vaš račun je uspješno kreiran!
                 </p>
               </div>
@@ -95,7 +95,7 @@ const handler = async (req: Request): Promise<Response> => {
               <!-- Footer -->
               <div style="text-align: center; padding-top: 20px; border-top: 1px solid #334155;">
                 <p style="color: #64748b; margin: 0; font-size: 12px;">
-                  © 2024 EM Capital. Sva prava zadržana.
+                  © 2024 Obsidian. Sva prava zadržana.
                 </p>
                 <p style="color: #64748b; margin: 10px 0 0; font-size: 12px;">
                   Ova poruka je poslata jer ste se registrovali na em-capital-forex.dynu.net

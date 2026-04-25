@@ -109,7 +109,7 @@ const adminMenuKeyboard = {
 };
 
 // Short welcome message for group (public)
-const getGroupWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u EM Capital, ${firstName}!*
+const getGroupWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u Obsidian, ${firstName}!*
 
 Drago nam je što ste se pridružili! 🙌
 Pogledajte privatnu poruku od bota za sve informacije.`;
@@ -124,7 +124,7 @@ const groupWelcomeKeyboard = {
 };
 
 // Detailed welcome message for private chat (sent to new members)
-const getDetailedPrivateWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u EM Capital, ${firstName}!*
+const getDetailedPrivateWelcomeMessage = (firstName: string) => `🎉 *Dobrodošli u Obsidian, ${firstName}!*
 
 Drago nam je što ste se pridružili našoj trading zajednici!
 
@@ -155,9 +155,9 @@ const detailedPrivateWelcomeKeyboard = {
 };
 
 // Welcome message for private chat
-const getPrivateWelcomeMessage = (firstName: string) => `🎯 *Dobrodošli u EM Capital, ${firstName}!*
+const getPrivateWelcomeMessage = (firstName: string) => `🎯 *Dobrodošli u Obsidian, ${firstName}!*
 
-EM Capital je trading mentorship i signal servis namijenjen početnicima koji žele naučiti kako pravilno upravljati rizikom.
+Obsidian je trading mentorship i signal servis namijenjen početnicima koji žele naučiti kako pravilno upravljati rizikom.
 
 👇 *Odaberite uslugu:*`;
 
@@ -539,7 +539,7 @@ Datum (opciono): DD.MM.YYYY format`;
     let welcomeMessage = '';
     
     if (membershipType === 'mentorship') {
-      welcomeMessage = `🎉 *Dobrodošli u EM Capital Mentorship!*
+      welcomeMessage = `🎉 *Dobrodošli u Obsidian Mentorship!*
 
 Čestitamo na prvom koraku ka uspješnom tradingu!
 
@@ -1199,7 +1199,7 @@ Primjer:
   let successCount = 0;
   let failCount = 0;
 
-  const formattedMessage = `📢 *Poruka od EM Capital*
+  const formattedMessage = `📢 *Poruka od Obsidian*
 
 ${messageText.trim()}
 

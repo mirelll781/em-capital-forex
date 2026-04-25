@@ -159,7 +159,7 @@ serve(async (req) => {
       const verificationUrl = `${supabaseUrl}/functions/v1/verify-ea-subscription?action=verify&token=${verification_token}`;
 
       const emailResponse = await resend.emails.send({
-        from: "EM Capital <onboarding@resend.dev>",
+        from: "Obsidian <onboarding@resend.dev>",
         to: [email],
         subject: "Potvrdi svoju prijavu za EA Robot obavijesti",
         html: `
@@ -177,7 +177,7 @@ serve(async (req) => {
                     <!-- Header -->
                     <tr>
                       <td style="padding: 30px; text-align: center; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-                        <h1 style="margin: 0; color: #000; font-size: 24px; font-weight: bold;">🤖 EM Capital EA Roboti</h1>
+                        <h1 style="margin: 0; color: #000; font-size: 24px; font-weight: bold;">🤖 Obsidian EA Roboti</h1>
                       </td>
                     </tr>
                     
@@ -215,7 +215,7 @@ serve(async (req) => {
                     <tr>
                       <td style="padding: 20px 30px; background-color: #232323; text-align: center;">
                         <p style="color: #737373; font-size: 12px; margin: 0;">
-                          © 2024 EM Capital. Sva prava zadržana.
+                          © 2024 Obsidian. Sva prava zadržana.
                         </p>
                       </td>
                     </tr>

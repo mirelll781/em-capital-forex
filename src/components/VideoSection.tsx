@@ -67,7 +67,7 @@ const VideoSection = () => {
             <div className="relative aspect-video rounded-xl overflow-hidden bg-background/50">
               <iframe
                 src="https://www.youtube.com/embed/KzP-m-pNHhY"
-                title="EM Capital Video"
+                title="Obsidian Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"

@@ -282,18 +282,18 @@ serve(async (req) => {
         const resend = new Resend(resendApiKey);
 
         const { error } = await resend.emails.send({
-          from: "EM Capital <onboarding@resend.dev>",
+          from: "Obsidian <onboarding@resend.dev>",
           to: [email],
           subject: subject,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #d4af37;">EM Capital</h2>
+              <h2 style="color: #d4af37;">Obsidian</h2>
               <div style="padding: 20px 0;">
                 ${message.replace(/\n/g, '<br>')}
               </div>
               <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
               <p style="color: #888; font-size: 12px;">
-                EM Capital - Forex Trading Signals & Mentorship
+                Obsidian - Forex Trading Signals & Mentorship
               </p>
             </div>
           `
@@ -335,7 +335,7 @@ serve(async (req) => {
         for (const user of usersWithoutChatId) {
           try {
             await resend.emails.send({
-              from: "EM Capital <onboarding@resend.dev>",
+              from: "Obsidian <onboarding@resend.dev>",
               to: [user.email],
               subject: "📱 Povežite svoj Telegram za signal obavijesti!",
               html: `
@@ -370,7 +370,7 @@ serve(async (req) => {
                   
                   <hr style="border: none; border-top: 1px solid #333; margin: 25px 0;">
                   <p style="color: #666; font-size: 12px;">
-                    EM Capital - Forex Trading Signals & Mentorship
+                    Obsidian - Forex Trading Signals & Mentorship
                   </p>
                 </div>
               `
@@ -403,7 +403,7 @@ serve(async (req) => {
         const resend = new Resend(resendApiKey);
 
         await resend.emails.send({
-          from: "EM Capital <onboarding@resend.dev>",
+          from: "Obsidian <onboarding@resend.dev>",
           to: [email],
           subject: "📱 Povežite svoj Telegram za signal obavijesti!",
           html: `
@@ -438,7 +438,7 @@ serve(async (req) => {
               
               <hr style="border: none; border-top: 1px solid #333; margin: 25px 0;">
               <p style="color: #666; font-size: 12px;">
-                EM Capital - Forex Trading Signals & Mentorship
+                Obsidian - Forex Trading Signals & Mentorship
               </p>
             </div>
           `
@@ -491,7 +491,7 @@ serve(async (req) => {
         const verificationUrl = `${supabaseUrl}/functions/v1/verify-ea-subscription?action=verify&token=${verification_token}`;
 
         await resend.emails.send({
-          from: "EM Capital <onboarding@resend.dev>",
+          from: "Obsidian <onboarding@resend.dev>",
           to: [email],
           subject: "Potvrdi svoju prijavu za EA Robot obavijesti",
           html: `
@@ -584,15 +584,15 @@ serve(async (req) => {
         const resend = new Resend(resendApiKey);
 
         await resend.emails.send({
-          from: "EM Capital <onboarding@resend.dev>",
+          from: "Obsidian <onboarding@resend.dev>",
           to: [email],
-          subject: "🔐 Resetujte svoju lozinku - EM Capital",
+          subject: "🔐 Resetujte svoju lozinku - Obsidian",
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a1a; color: #fff; padding: 30px; border-radius: 10px;">
               <h2 style="color: #d4af37; margin-bottom: 20px;">🔐 Zahtjev za Reset Lozinke</h2>
               
               <p style="font-size: 16px; line-height: 1.6;">
-                Primili smo zahtjev za resetovanje vaše lozinke na EM Capital platformi.
+                Primili smo zahtjev za resetovanje vaše lozinke na Obsidian platformi.
               </p>
               
               <a href="${linkData?.properties?.action_link}" style="display: inline-block; background: #d4af37; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0;">
@@ -605,7 +605,7 @@ serve(async (req) => {
               
               <hr style="border: none; border-top: 1px solid #333; margin: 25px 0;">
               <p style="color: #666; font-size: 12px;">
-                EM Capital - Forex Trading Signals & Mentorship
+                Obsidian - Forex Trading Signals & Mentorship
               </p>
             </div>
           `

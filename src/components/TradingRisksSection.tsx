@@ -87,7 +87,7 @@ const TradingRisksSection = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Pravna napomena</h3>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                EM Capital pruža edukativne materijale i signale za trgovanje, ali <strong>ne dajemo financijske savjete</strong>. 
+                Obsidian pruža edukativne materijale i signale za trgovanje, ali <strong>ne dajemo financijske savjete</strong>. 
                 Sve informacije na ovoj stranici su isključivo informativne prirode i ne bi se trebale smatrati preporukom za kupnju ili prodaju bilo kojeg financijskog instrumenta.
               </p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
