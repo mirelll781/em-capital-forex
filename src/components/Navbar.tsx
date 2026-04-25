@@ -161,9 +161,9 @@ const Navbar = () => {
                 </Button>
               </Link>
             )}
-            <a href="#signup">
+            <a href="#paketi">
               <Button variant="hero" size="lg">
-                Započni Odmah
+                Pogledaj Programe
               </Button>
             </a>
           </div>
@@ -242,9 +242,9 @@ const Navbar = () => {
                 </Link>
               )}
               
-              <a href="#signup" onClick={() => setIsMobileMenuOpen(false)}>
+              <a href="#paketi" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button variant="hero" size="lg" className="mt-2 w-full">
-                  Započni Odmah
+                  Pogledaj Programe
                 </Button>
               </a>
             </div>
