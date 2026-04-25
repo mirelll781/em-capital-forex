@@ -1,4 +1,4 @@
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/obsidian-logo.png";
 
 const Maintenance = () => {
   return (

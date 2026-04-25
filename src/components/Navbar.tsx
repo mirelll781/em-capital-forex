@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/obsidian-logo.png";
 
 const navLinks = [
   { label: "Usluge", href: "#services" },

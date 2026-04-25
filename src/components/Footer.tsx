@@ -1,5 +1,5 @@
 import { Send, Mail, Instagram, Users, Bot } from "lucide-react";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/obsidian-logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

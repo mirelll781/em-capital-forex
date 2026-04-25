@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, CreditCard, MessageCircle, Shield, Clock, CheckCircle, XCircle, AlertCircle, Bot, ExternalLink, Users, Settings, LogOut } from 'lucide-react';
 import { User as SupabaseUser } from '@supabase/supabase-js';
 import { toast } from 'sonner';
-import logo from '@/assets/logo.jpg';
+import logo from '@/assets/obsidian-logo.png';
 import AvatarUpload from '@/components/profile/AvatarUpload';
 import ChangePassword from '@/components/profile/ChangePassword';
 import PaymentHistory from '@/components/profile/PaymentHistory';

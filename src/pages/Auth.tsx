@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Eye, EyeOff, ArrowLeft, CheckCircle } from 'lucide-react';
 import { z } from 'zod';
-import logo from '@/assets/logo.jpg';
+import logo from '@/assets/obsidian-logo.png';
 import PasswordStrengthIndicator, { isPasswordStrong } from '@/components/PasswordStrengthIndicator';
 
 const signupSchema = z.object({
