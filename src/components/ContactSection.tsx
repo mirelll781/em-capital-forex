@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,10 +17,10 @@ const contactSchema = z.object({
 });
 
 const topicOptions = [
-  { value: "mentorship", label: "🟢 Mentorship Program" },
-  { value: "signals", label: "🔵 Premium Signali" },
+  { value: "mentorship", label: "👑 Mentorship Program – 300€" },
+  { value: "vip", label: "💎 VIP Trading Grupa – 70€/mj" },
+  { value: "standard", label: "📊 Standard Trading Grupa – 20€/mj" },
   { value: "general", label: "💬 Opće pitanje" },
-  { value: "partnership", label: "🤝 Suradnja / Partnerstvo" },
 ];
 
 const ContactSection = () => {
