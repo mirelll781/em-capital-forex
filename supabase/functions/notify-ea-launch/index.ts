@@ -12,6 +12,8 @@ const corsHeaders = {
 const REGULAR_PRICE = 1000;
 const DISCOUNT_PRICE = 800;
 
+const BOT_PAUSED = Deno.env.get("BOT_PAUSED") === "true";
+
 const generateEmailHtml = (discountEndDate: string) => `
 <!DOCTYPE html>
 <html>

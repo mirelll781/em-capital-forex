@@ -28,6 +28,14 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    if (Deno.env.get("BOT_PAUSED") === "true") {
+      console.log("BOT_PAUSED=true — skipping EA subscription notification");
+      return new Response(JSON.stringify({ success: true, paused: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     console.log(`New EA robot subscription: ${email}`);
 
     // Send Telegram notification to admins
