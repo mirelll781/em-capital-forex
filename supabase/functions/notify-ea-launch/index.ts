@@ -12,6 +12,8 @@ const corsHeaders = {
 const REGULAR_PRICE = 1000;
 const DISCOUNT_PRICE = 800;
 
+const BOT_PAUSED = Deno.env.get("BOT_PAUSED") === "true";
+
 const generateEmailHtml = (discountEndDate: string) => `
 <!DOCTYPE html>
 <html>
@@ -90,6 +92,14 @@ const handler = async (req: Request): Promise<Response> => {
 
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  if (BOT_PAUSED) {
+    console.log("BOT_PAUSED=true — skipping EA launch notifications");
+    return new Response(JSON.stringify({ success: true, paused: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+    });
   }
 
   try {

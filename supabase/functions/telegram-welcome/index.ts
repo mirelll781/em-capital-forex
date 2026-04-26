@@ -1557,6 +1557,15 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Global kill switch — silently ack all updates without processing
+  if (Deno.env.get('BOT_PAUSED') === 'true') {
+    console.log('BOT_PAUSED=true — ignoring incoming Telegram update');
+    return new Response(JSON.stringify({ ok: true, paused: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
+    });
+  }
+
   try {
     const body = await req.json();
     

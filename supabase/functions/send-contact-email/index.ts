@@ -25,6 +25,14 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { name, email, phone, topic, topicLabel, message }: ContactFormRequest = await req.json();
 
+    if (Deno.env.get("BOT_PAUSED") === "true") {
+      console.log("BOT_PAUSED=true — skipping contact email");
+      return new Response(JSON.stringify({ success: true, paused: true }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
     console.log(`Received contact form submission from: ${name} (${email}) - Topic: ${topicLabel}`);
 
     const phoneInfo = phone ? `<p><strong>Telefon:</strong> <a href="tel:${phone}">${phone}</a></p>` : '';

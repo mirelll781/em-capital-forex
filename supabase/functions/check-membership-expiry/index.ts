@@ -46,6 +46,14 @@ serve(async (req) => {
   }
 
   try {
+    if (Deno.env.get("BOT_PAUSED") === "true") {
+      console.log("BOT_PAUSED=true — skipping membership expiry check");
+      return new Response(JSON.stringify({ success: true, paused: true }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
+    }
+
     console.log('Checking for expiring memberships...');
     
     const supabase = getSupabaseClient();
