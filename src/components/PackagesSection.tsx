@@ -83,17 +83,9 @@ const packages = [
   },
 ];
 
+const TELEGRAM_URL = "https://t.me/obsidianowner";
+
 const PackagesSection = () => {
-  const scrollToContact = (topic: string) => {
-    const el = document.getElementById("contact");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      setTimeout(() => {
-        const event = new CustomEvent("preselect-topic", { detail: topic });
-        window.dispatchEvent(event);
-      }, 600);
-    }
-  };
 
   return (
     <section id="paketi" className="relative py-20 md:py-28">
@@ -203,22 +195,24 @@ const PackagesSection = () => {
                     </div>
 
                     <Button
+                      asChild
                       variant={pkg.highlighted ? "hero" : "outline"}
                       size="lg"
                       className="group w-full"
-                      onClick={() => scrollToContact(pkg.ctaTopic)}
                     >
-                      {pkg.ctaLabel}
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <a href={TELEGRAM_URL} target="_blank" rel="noopener noreferrer">
+                        {pkg.ctaLabel}
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </a>
                     </Button>
 
                     <a
-                      href="https://t.me/emcapitalforexbot"
+                      href={TELEGRAM_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-center text-muted-foreground hover:text-primary transition-colors"
                     >
-                      ili direktno preko Telegrama →
+                      Telegram: @obsidianowner →
                     </a>
                   </aside>
                 </div>
