@@ -97,7 +97,7 @@ const handler = async (req: Request): Promise<Response> => {
                 <h3 style="color: #fbbf24; margin: 0 0 10px; font-size: 16px;">📞 Kontakt:</h3>
                 <p style="color: #e2e8f0; margin: 5px 0;">Telegram: <a href="https://t.me/EMforexadmin" style="color: #60a5fa;">@EMforexadmin</a></p>
                 <p style="color: #e2e8f0; margin: 5px 0;">Email: <a href="mailto:emcapital3@gmail.com" style="color: #60a5fa;">emcapital3@gmail.com</a></p>
-                <p style="color: #e2e8f0; margin: 5px 0;">Web: <a href="https://em-capital-forex.dynu.net" style="color: #60a5fa;">em-capital-forex.dynu.net</a></p>
+                <p style="color: #e2e8f0; margin: 5px 0;">Web: <a href="https://obsiidian.mywire.org" style="color: #60a5fa;">obsiidian.mywire.org</a></p>
               </div>
               
               <!-- Footer -->
@@ -106,7 +106,7 @@ const handler = async (req: Request): Promise<Response> => {
                   © 2024 Obsidian. Sva prava zadržana.
                 </p>
                 <p style="color: #64748b; margin: 10px 0 0; font-size: 12px;">
-                  Ova poruka je poslata jer ste se registrovali na em-capital-forex.dynu.net
+                  Ova poruka je poslata jer ste se registrovali na obsiidian.mywire.org
                 </p>
               </div>
               

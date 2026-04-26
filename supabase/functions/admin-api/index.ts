@@ -571,7 +571,7 @@ serve(async (req) => {
           type: 'recovery',
           email: email,
           options: {
-            redirectTo: 'https://em-capital-forex.dynu.net/auth'
+            redirectTo: 'https://obsiidian.mywire.org/auth'
           }
         });
 

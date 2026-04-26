@@ -68,7 +68,7 @@ const handler = async (req: Request): Promise<Response> => {
             
             <hr style="border: 1px solid #e5e7eb; margin-top: 20px;" />
             <p style="color: #6b7280; font-size: 12px;">
-              Ova poruka je poslana putem kontakt forme na em-capital-forex.dynu.net
+              Ova poruka je poslana putem kontakt forme na obsiidian.mywire.org
             </p>
           </div>
         `,
