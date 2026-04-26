@@ -94,6 +94,14 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  if (BOT_PAUSED) {
+    console.log("BOT_PAUSED=true — skipping EA launch notifications");
+    return new Response(JSON.stringify({ success: true, paused: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+    });
+  }
+
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
