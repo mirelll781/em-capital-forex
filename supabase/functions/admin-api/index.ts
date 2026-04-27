@@ -571,7 +571,7 @@ serve(async (req) => {
           type: 'recovery',
           email: email,
           options: {
-            redirectTo: 'https://obsiidian.mywire.org/auth'
+            redirectTo: 'https://obsidianfx.ooguy.com/auth'
           }
         });
 

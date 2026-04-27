@@ -129,7 +129,7 @@ const getDetailedPrivateWelcomeMessage = (firstName: string) => `🎉 *Dobrodoš
 Drago nam je što ste se pridružili našoj trading zajednici!
 
 📝 *OBAVEZNO:* Registrujte se na našoj web stranici:
-👉 [obsiidian.mywire.org/auth](https://obsiidian.mywire.org/auth)
+👉 [obsidianfx.ooguy.com/auth](https://obsidianfx.ooguy.com/auth)
 
 🤖 *Za pristup svim opcijama* (provjera statusa, upit, itd.) kliknite na dugme ispod i pokrenite privatni chat sa botom.
 
@@ -139,7 +139,7 @@ Drago nam je što ste se pridružili našoj trading zajednici!
 const detailedPrivateWelcomeKeyboard = {
   inline_keyboard: [
     [
-      { text: '📝 Registruj se', url: 'https://obsiidian.mywire.org/auth' }
+      { text: '📝 Registruj se', url: 'https://obsidianfx.ooguy.com/auth' }
     ],
     [
       { text: '🤖 Otvori Bota', url: 'https://t.me/emcapitalforexbot?start=welcome' }
@@ -212,7 +212,7 @@ Za sva pitanja možete nas kontaktirati:
 👤 *Telegram:* @emirbcvc
 📧 *Email:* emcapital3@gmail.com
 📸 *Instagram:* [em.capital1](https://www.instagram.com/em.capital1)
-🌐 *Web:* obsiidian.mywire.org
+🌐 *Web:* obsidianfx.ooguy.com
 🔗 *Telegram Grupa:* [Pristupi grupi](https://t.me/+994O794fVBZhYTA6)
 
 Odgovaramo u roku 24 sata!`,
@@ -927,7 +927,7 @@ Postavite username u Telegram podešavanjima i pokušajte ponovo.`;
 
 Vaš Telegram username (@${escapeMarkdown(username)}) nije pronađen u sistemu.
 
-👉 Registrujte se na: obsiidian.mywire.org/auth
+👉 Registrujte se na: obsidianfx.ooguy.com/auth
 
 Unesite isti Telegram username prilikom registracije.`;
   }
@@ -1379,7 +1379,7 @@ function getEaLaunchMessage(): string {
 
 🔥 *Ne propustite specijalnu ponudu!*
 
-🛒 *Kupite sada:* obsiidian.mywire.org/#ea-robots
+🛒 *Kupite sada:* obsidianfx.ooguy.com/#ea-robots
 
 Za pitanja: @EMforexadmin ili @emirbcvc`;
 }
