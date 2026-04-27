@@ -55,7 +55,7 @@ serve(async (req) => {
             <div class="container">
               <h1>❌ Neispravan Link</h1>
               <p>Verifikacijski link nije validan ili je istekao.</p>
-              <p><a href="https://obsiidian.mywire.org">← Povratak na stranicu</a></p>
+              <p><a href="https://obsidianfx.ooguy.com">← Povratak na stranicu</a></p>
             </div>
           </body>
           </html>`,
@@ -85,7 +85,7 @@ serve(async (req) => {
             <div class="container">
               <h1>✓ Već Verificirano</h1>
               <p>Vaš email je već verificiran. Obavijestit ćemo vas kada EA roboti budu dostupni.</p>
-              <p><a href="https://obsiidian.mywire.org">← Povratak na stranicu</a></p>
+              <p><a href="https://obsidianfx.ooguy.com">← Povratak na stranicu</a></p>
             </div>
           </body>
           </html>`,
@@ -132,7 +132,7 @@ serve(async (req) => {
             <h1>Email Verificiran!</h1>
             <p>Hvala! Uspješno ste se prijavili za obavijesti o EA robotima.</p>
             <p>Obavijestit ćemo vas čim budu dostupni.</p>
-            <p style="margin-top: 30px;"><a href="https://obsiidian.mywire.org">← Povratak na stranicu</a></p>
+            <p style="margin-top: 30px;"><a href="https://obsidianfx.ooguy.com">← Povratak na stranicu</a></p>
           </div>
         </body>
         </html>`,
